@@ -25,6 +25,7 @@ return [
     ],
 
     'validation' => [
+        'record not created' => 'The record could not be created',
     ],
 
     'statusAuction' => [

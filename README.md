@@ -6,19 +6,20 @@
     - PUBLISHED = 2;
     - FINISHED = 3;
 
-## General Status (For Products and other else)
+## General Status (For Products, AuctionProviders and other else)
     - PENDING = 0;
     - APPROVED = 1;
     - REJECTED = 2;
 
 ## Api Examples
 
+
 ### Auctions
 
 #### List all auctions (with status = PENDING,PUBLISHED,FINISHED)
 https://mydomain.com/api/iauctions/auctions?page=1&take=10&filter={"orderBy":"started_at","orderType":"asc","status":[1,2,3]}&include=product,category,ingredient
 
-#### Get an auction (Example 4 -> id)
+#### Get an auction (Parameter = auctionid)
 https://mydomain.com/api/iauctions/auctions/4?include=product,category,ingredient
 
 
@@ -27,28 +28,29 @@ https://mydomain.com/api/iauctions/auctions/4?include=product,category,ingredien
 #### List all Products (with status = APPROVED)
 https://mydomain.com/api/iauctions/products?page=1&take=10&filter={"status":[1]}&include=category,ingredient
 
-#### Get a product (Example capsulagro -> slug)
-https://mydomain/api/iauctions/products/capsulagro?include=category,ingredient
+#### Get a product (Parameter = productslug)
+https://mydomain.com/api/iauctions/products/capsulagro?include=category,ingredient
+
 
 ### Auction Provider
 
-// Registrarse en un auction
+#### Get a AuctionProvider (Parameter = auctionproviderid)
+https://mydomain.com/api/iauctions/auctionproviders/4?include=products
 
-- Verificar las Fechas
+#### Get a AuctionProvider By Auction and User(Parameter = auctionid)
+https://mydomain.com/api/iauctions/auctionproviders/auction/4?include=products
 
-### Auction Provider Product
+#### Store (Parameters = auctionid, Products ids)
+https://mydomain.com/api/iauctions/auctionproviders/auction/4?productsid=1,2
 
-// Registrar los productos en un auction
-
-- Verificar las Fechas
 
 ### Bid
 
-// Listar todos los Bids
+#### Store (Parameters = auctionid, Bid Parameters)
+https://mydomain.com/api/iauctions/bids/auction/4
 
+// Listar todos los Bids
 // Ver la informacion de un Bid
 
-// Guardar un Bid
 
- - Verificar la fecha del auction
- - Verificar el estatus del auction
+ ## Cron to Dates

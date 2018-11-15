@@ -17,13 +17,13 @@ class CreateIauctionsBidsTable extends Migration
             $table->increments('id');
             
             // Your fields
-            $table->integer('auction_id')->unsigned()->nullable();
+            $table->integer('auction_id')->unsigned();
             $table->foreign('auction_id')->references('id')->on('iauctions__auctions')->onDelete('restrict');
             
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on(config('auth.table', 'users'))->onDelete('restrict');
             
-            $table->integer('product_id')->unsigned()->nullable();
+            $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('iauctions__products')->onDelete('restrict');
 
             $table->double('price', 30, 2)->default(0);

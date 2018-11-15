@@ -33,17 +33,38 @@ $router->group(['prefix' => 'iauctions'], function (Router $router) {
     });
 
     $router->group(['prefix' => 'auctionproviders'], function (Router $router) {
+
+       
+        $router->bind('apiauctionprovider', function ($id) {
+            return app(\Modules\Iauctions\Repositories\AuctionProviderRepository::class)->find($id);
+        });
+       
+        $router->get('{apiauctionprovider}', [
+            'as' => 'iauctions.api.auctionprovider',
+            'uses' => 'AuctionProviderController@auctionprovider',
+        ]);
+
+        $router->get('auction/{auctionid}', [
+            'as' => 'iauctions.api.auctionprovider.auctionuser',
+            'uses' => 'AuctionProviderController@auctionuser',
+            'middleware' => ['api.token', 'token-can:iauctions.auctionproviders.index']
+        ]);
         
-        $router->post('/', [
+        $router->post('auction/{auctionid}', [
             'as' => 'iauctions.api.auctionprovider.store',
             'uses' => 'AuctionProviderController@store',
             'middleware' => ['api.token', 'token-can:iauctions.auctionproviders.create']
         ]);
-
+       
     });
 
     $router->group(['prefix' => 'bids'], function (Router $router) {
-        // routes
+       
+        $router->post('auction/{auctionid}', [
+            'as' => 'iauctions.api.bids.store',
+            'uses' => 'BidController@store',
+            'middleware' => ['api.token', 'token-can:iauctions.bids.create']
+        ]);
 
     });
 

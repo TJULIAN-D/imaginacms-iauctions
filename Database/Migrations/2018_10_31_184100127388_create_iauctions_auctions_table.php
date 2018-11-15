@@ -30,7 +30,7 @@ class CreateIauctionsAuctionsTable extends Migration
             $table->integer('financialcost_monthly')->default(0)->unsigned();
             $table->integer('longerterm_freight')->default(0)->unsigned();
 
-            $table->integer('product_id')->unsigned()->nullable();
+            $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('iauctions__products')->onDelete('restrict');
             
             $table->integer('status')->default(1)->unsigned();

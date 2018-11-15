@@ -17,7 +17,7 @@ class CreateIauctionsAuctionProviderProductsTable extends Migration
             $table->increments('id');
             
             // Your fields
-            $table->integer('auctionprovider_id')->unsigned()->nullable();
+            $table->integer('auctionprovider_id')->unsigned();
             $table->foreign('auctionprovider_id')->references('id')->on('iauctions__auctionproviders')->onDelete('restrict');
             
             $table->integer('product_id')->unsigned()->nullable();

@@ -27,7 +27,7 @@ class AuctionProvider extends Model
 
     public function auctionproviderproducts()
     {
-        return $this->hasMany(AuctionProviderProduct::class);
+        return $this->hasMany(AuctionProviderProduct::class,"auctionprovider_id");
     }
 
 
