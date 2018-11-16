@@ -15,7 +15,8 @@ use Route;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Iauctions\Repositories\AuctionProviderRepository;
 use Modules\Iauctions\Repositories\BidRepository;
-//use Modules\Iauctions\Transformers\AuctionTransformer;
+
+use Modules\Iauctions\Transformers\BidTransformer;
 
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;  //Base API
 
@@ -105,16 +106,76 @@ class BidController extends BaseApiController
  
   }
   
+  /**
+     * Get Data from Bids
+     *
+     * @param Request $request
+     * @return mixed
+     */
   public function bids(Request $request)
   {
+     
+    try {
+  
+        $p = $this->parametersUrl(false, false, false, []);
+        $bids = $this->bid->index($p->page, $p->take, $p->filter, $p->include);
       
+        $response = ["data" => BidTransformer::collection($bids)];
+        
+        //If request pagination add meta-page
+        $p->page ? $response["meta"] = ["page" => $this->pageTransformer($bids)] : false;
+        
+      } catch (\ErrorException $e) {
+  
+        $status = 500;
+        $response = ['errors' => [
+          "code" => "500",
+          "source" => [
+            "pointer" => url($request->path()),
+          ],
+          "title" => "Error",
+          "detail" => $e->getMessage()
+        ]];
+  
+      }//catch
+  
+    return response()->json($response, $status ?? 200);
+  
   }
 
 
-  public function bid(Request $request)
+  /**
+     * Get Data by Bid
+     *
+     * @param Request $request
+     * @return mixed
+     */
+  public function bid($param,Request $request)
   {
-      
+      try {
+         
+          $p = $this->parametersUrl(false, false, false, []);
+          $bid = $this->bid->show($param, $p->include);
+  
+          $response = ["data" => is_null($bid) ? false : new BidTransformer($bid)];
+  
+      } catch (\Exception $e) {
+         
+          $status = 500;
+          $response = [
+            "code" => "500",
+            "source" => [
+              "pointer" => url($request->path()),
+            ],
+            "title" => "Error",
+            "detail" => $e->getMessage()
+          ];
+      }
+      return response()->json($response, $status ?? 200);
+  
   }
+
+ 
 
 
 

@@ -16,7 +16,7 @@
 
 ### Auctions
 
-#### List all auctions (with status = PENDING,PUBLISHED,FINISHED)
+#### List all auctions (Example with status = PENDING,PUBLISHED,FINISHED)
 https://mydomain.com/api/iauctions/auctions?page=1&take=10&filter={"orderBy":"started_at","orderType":"asc","status":[1,2,3]}&include=product,category,ingredient
 
 #### Get an auction (Parameter = auctionid)
@@ -32,7 +32,7 @@ https://mydomain.com/api/iauctions/products?page=1&take=10&filter={"status":[1]}
 https://mydomain.com/api/iauctions/products/capsulagro?include=category,ingredient
 
 
-### Auction Provider
+### Auction Provider (with products)
 
 #### Get a AuctionProvider (Parameter = auctionproviderid)
 https://mydomain.com/api/iauctions/auctionproviders/4?include=products
@@ -46,11 +46,14 @@ https://mydomain.com/api/iauctions/auctionproviders/auction/4?productsid=1,2
 
 ### Bid
 
+#### List All bids (Example with AuctionID = 4)
+https://mydomain.com/api/iauctions/bids?take=10&filter={"AuctionID":4}&include=auction,product
+
+#### Get a Bid (Parameter = bidid)
+https://mydomain.com/api/iauctions/bids/3?include=auction,product
+
 #### Store (Parameters = auctionid, Bid Parameters)
 https://mydomain.com/api/iauctions/bids/auction/4
-
-// Listar todos los Bids
-// Ver la informacion de un Bid
 
 
  ## Cron to Dates

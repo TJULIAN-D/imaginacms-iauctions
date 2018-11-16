@@ -65,13 +65,17 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
     }
 
 
-    /*
+     /**
+     * Return Products with relations (Index Backend)
+     *
+     * @return products collection
+     */
     public function allWithRelations(){
         
         return $this->model->with(['category', 'ingredient'])
             ->orderBy('created_at', 'DESC')->paginate(12);
     }
-    */
+    
 
 
 }

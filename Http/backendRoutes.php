@@ -292,6 +292,13 @@ $router->group(['prefix' =>'/iauctions'], function (Router $router) {
         'uses' => 'AuctionProviderController@destroy',
         'middleware' => 'can:iauctions.auctionproviders.destroy'
     ]);
+
+    $router->post('auctionproviders/updateStatus/', [
+        'as' => 'admin.iauctions.auctionprovider.updateStatus',
+        'uses' => 'AuctionProviderController@updateStatus',
+        'middleware' => 'can:iauctions.auctionproviders.edit'
+    ]);
+
 // append
 
 

@@ -80,6 +80,7 @@ class AuctionProviderController extends AdminBaseController
     {
         $auction = $this->auction->find($id);
         $status = $this->status;
+
         return view('iauctions::admin.auctionproviders.edit', compact('auction','status'));
     }
 
@@ -111,4 +112,29 @@ class AuctionProviderController extends AdminBaseController
         return redirect()->route('admin.iauctions.auctionprovider.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('iauctions::auctionproviders.title.auctionproviders')]));
     }
+
+     /**
+     * Update Status
+     *
+     * @param  
+     * @return Response
+     */
+    public function updateStatus(Request $request){
+
+        try {
+
+            $auctionprovider = $this->auctionprovider->find($request->auctionprovider_id);
+            $auctionprovider->status = $request->status;
+            $auctionprovider->update();
+            
+          return response()->json(['success'=>1,'msg'=> trans('core::core.messages.resource updated', ['name' => trans('iauctions::auctionproviders.title.auctionproviders')])]);
+        
+        } catch (\Exception $e) {
+
+          return response()->json(['success'=>0,'msg'=>$e->getMessage()]);
+
+        }
+
+    }
+
 }
