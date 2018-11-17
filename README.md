@@ -56,4 +56,15 @@ https://mydomain.com/api/iauctions/bids/3?include=auction,product
 https://mydomain.com/api/iauctions/bids/auction/4
 
 
- ## Cron to Dates
+## Email Templates
+
+### Admin
+
+#### Principal
+Themes/Adminlte/views/email/plantilla.blade
+
+#### Auction Provider Status
+views/email/auctionprovider_status
+
+
+## Cron to Dates

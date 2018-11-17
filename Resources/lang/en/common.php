@@ -13,7 +13,8 @@ return [
     ],
 
     'table' => [
-        'fullname' => 'Fullname'
+        'fullname' => 'Fullname',
+        'title' => 'Title',
     ],
 
     'form' => [
@@ -46,7 +47,8 @@ return [
 
     'settings'   => [
         'auctions-tax' => 'Value-added Tax (VAT)',
-        'toemail'     => 'Email to'
+        'toemail'     => 'Email to',
+        'fromemail' => 'From email'
     ],
 
     'modal' => [
@@ -54,6 +56,18 @@ return [
         'update' => 'Update',
         'close' => 'Close',
         'change status' => 'Change the status',
+    ],
+
+    'email' => [
+        'subject'=>[
+            'change state' => 'Status Auction',
+        ],
+        'intro' =>[
+            'change state' => 'Your status Auction has Changed !!',
+        ],
+        'msj' =>[
+            'The status of your Auction has changed to' => 'The status of your Auction has changed to'
+        ]
     ],
 
 

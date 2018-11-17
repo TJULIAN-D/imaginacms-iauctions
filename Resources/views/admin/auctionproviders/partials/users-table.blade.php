@@ -149,6 +149,9 @@
             headers:{'X-CSRF-TOKEN': "{{csrf_token()}}"},
             dataType:"json",
             data:{auctionprovider_id:auctionprovider_id_update,status:new_status},
+            beforeSend: function(){ 
+                $("#btnUpdate").addClass("disabled");
+            },
             success:function(result){
                 if(result.success){
                     alert(result.msg);
@@ -158,15 +161,14 @@
                 }else{
                     console.log('Error, update status auctionprovider: '+result.msg);
                 }
+                $("#btnUpdate").removeClass("disabled");
             },
             error:function(error){
+                $("#btnUpdate").removeClass("disabled");
                 console.log("ERROR AJAX UPDATE STATUS: "+error);
             }
         });//ajax
        
-
-       
-
     }
 
 </script>

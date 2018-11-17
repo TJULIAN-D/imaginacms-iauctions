@@ -14,6 +14,8 @@ use Modules\Iauctions\Repositories\AuctionRepository;
 
 use Modules\Iauctions\Entities\Status;
 
+use Modules\Setting\Contracts\Setting;
+
 class AuctionProviderController extends AdminBaseController
 {
     /**
@@ -22,16 +24,19 @@ class AuctionProviderController extends AdminBaseController
     private $auctionprovider;
     private $auction;
     private $status;
+    private $setting;
 
     public function __construct(
         AuctionProviderRepository $auctionprovider,
         AuctionRepository $auction,
-        Status $status
+        Status $status,
+        Setting $setting
     ){
         parent::__construct();
         $this->auctionprovider = $auctionprovider;
         $this->auction = $auction;
         $this->status = $status;
+        $this->setting = $setting;
     }
 
     /**
@@ -123,10 +128,36 @@ class AuctionProviderController extends AdminBaseController
 
         try {
 
+            // Update Status
             $auctionprovider = $this->auctionprovider->find($request->auctionprovider_id);
             $auctionprovider->status = $request->status;
             $auctionprovider->update();
             
+            // Send Email to Provider
+            $email_from = $this->setting->get('iauctions::from-email');
+            $email_to = explode(',',$this->setting->get('iauctions::to-email'));
+            $sender  = $this->setting->get('core::site-name');
+
+            $auction = $auctionprovider->auction;
+            
+            $msjTheme = "iauctions::email.auctionprovider_status";
+            $msjSubject = trans('iauctions::common.email.subject.change state')." #".$auction->id;
+            $msjIntro = trans('iauctions::common.email.intro.change state');
+            
+            $userEmail = $auctionprovider->user->email;
+            $userFirstname = $auctionprovider->user->first_name;
+            
+            $statusName = $this->status->get($auctionprovider->status);
+
+            $content=[
+                'auction'=> $auction,
+                'user' => $userFirstname,
+                'statusName' => $statusName
+            ];
+            
+            $mailUser = iauctions_emailSend(['email_from'=>[$email_from],'theme' => $msjTheme,'email_to' => $userEmail,'subject' => $msjSubject, 'sender'=>$sender,'data' => array('title' => $msjSubject,'intro'=> $msjIntro,'content'=>$content)]);
+            
+           
           return response()->json(['success'=>1,'msg'=> trans('core::core.messages.resource updated', ['name' => trans('iauctions::auctionproviders.title.auctionproviders')])]);
         
         } catch (\Exception $e) {
