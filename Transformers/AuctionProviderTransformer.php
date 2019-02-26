@@ -3,29 +3,27 @@
 namespace Modules\Iauctions\Transformers;
 
 use Illuminate\Http\Resources\Json\Resource;
-use Modules\Iauctions\Transformers\AuctionProviderProductTransformer;
+use Modules\Iprofile\Transformers\UserProfileTransformer;
+
 
 class AuctionProviderTransformer extends Resource
 {
   public function toArray($request)
   {
 
-    $includes = explode(",", $request->include);
+      $data=[
+          'id'=>$this->when($this->id,$this->id),
+          'provider_id'=>$this->when($this->provider_id,$this->provider_id),
+          'auction_id'=>$this->when($this->auction_id,$this->auction_id),
+          'status'=>$this->when($this->status,$this->status),
+          'code_use'=>$this->when($this->code_use,$this->code_use),
+          'created_at'=>$this->when($this->created_at,$this->created_at),
+          'products'=> ProductTransformer::collection($this->whenLoaded('products')),
+          'provider'=> new UserProfileTransformer($this->whenLoaded('provider')),
+          'auction'=> new AuctionTransformer($this->whenLoaded('auction'))
+      ];
 
-    /*Values to return*/
-    $data = [
-      'id' => $this->id,
-      'auction_id' => $this->auction_id,
-      'user_id' => $this->user_id,
-      'status' => $this->status,
-      'statusName' => iauctions_get_status()->get($this->status)
-    ];
-
-    if (in_array('products', $includes)) {
-      $data["relationships"]["auctionproviderproducts"] = AuctionProviderProductTransformer::collection($this->auctionproviderproducts);
-    }
-      
-    return $data;
+      return $data;
 
   }
 }

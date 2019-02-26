@@ -29,26 +29,11 @@
                     <tbody>
                     @foreach ($auction->auctionproviders as $auctionprovider)
                         <tr>
-                            
-                            <td>{{$auctionprovider->user_id}}</td>
-                            <td>{{$auctionprovider->user->present()->fullname}}</td>
-                            <td>{{$auctionprovider->user->email}}</td>
+                            <td>{{$auctionprovider->provider->id}}</td>
+                            <td>{{$auctionprovider->provider->present()->fullname}}</td>
+                            <td>{{$auctionprovider->provider->email}}</td>
                             <td>
-
-                                @php
-
-                                    if($auctionprovider->status==0)
-                                        $classBadge = "bg-yellow";
-
-                                    if($auctionprovider->status==1)
-                                        $classBadge = "bg-green";
-
-                                    if($auctionprovider->status==2)
-                                        $classBadge = "bg-red";
-
-                                @endphp
-
-                            <span class="badge {{$classBadge}}">{{$status->get($auctionprovider->status)}}</span>
+                            <span class="badge {{$auctionprovider->present()->statusLabelClass}}">{{$auctionprovider->present()->status}}</span>
                                
                             </td>         
                             <td>
@@ -107,7 +92,7 @@
         auctionprovider_id_update=auctionproviderID;
 
         $.ajax({
-            url:"{{url('/')}}"+"/api/iauctions/auctionproviders/"+auctionproviderID+"?include=products",
+            url:"{{url('/')}}"+"/api/iauctions/auctions/providers/"+auctionproviderID+"?include=products",
             type:'GET',
             headers:{'X-CSRF-TOKEN': "{{csrf_token()}}"},
             dataType:"json",
@@ -117,17 +102,19 @@
 
                 $("#statusAuctionProvider option[value="+auctionproviderStatus+"]").attr('selected', 'selected');
                 
-                var products = result.data.relationships.auctionproviderproducts;
-               
+               var products = result.data.products;
+               for (var i=0; i < products.length; i++){
+                   var newRow = $("<tr>");
+                   var cols = "";
+
+                   cols += '<td>'+products[i].id+'</td>';
+                   cols += '<td>'+products[i].name+'</td>';
+
+                   newRow.append(cols);
+                   $("#tProductsProvider").append(newRow);
+                }
                 products.forEach(function(product, index) {
-                    var newRow = $("<tr>");
-                    var cols = "";
 
-                    cols += '<td>'+product.product_id+'</td>';
-                    cols += '<td>'+product.product.name+'</td>';
-
-                    newRow.append(cols);
-                    $("#tProductsProvider").append(newRow);
                 });
                
                 $('#modal-update-status').modal();
@@ -144,20 +131,19 @@
         var new_status = $('#statusAuctionProvider').val();
 
         $.ajax({
-            url:"{{route('admin.iauctions.auctionprovider.updateStatus')}}",
+            url:"iauctions.api.auction.provider.update',[])}}",
             type:'POST',
             headers:{'X-CSRF-TOKEN': "{{csrf_token()}}"},
             dataType:"json",
-            data:{auctionprovider_id:auctionprovider_id_update,status:new_status},
+            data:{attributes:{status:new_status}},
             beforeSend: function(){ 
                 $("#btnUpdate").addClass("disabled");
             },
             success:function(result){
                 if(result.success){
-                    alert(result.msg);
                     $('#statusAuctionProvider').val("");
                     $('#modal-update-status').modal("hide");
-                    location.reload();
+                    location.reload(true);
                 }else{
                     console.log('Error, update status auctionprovider: '+result.msg);
                 }

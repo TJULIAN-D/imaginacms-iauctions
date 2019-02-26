@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIauctionsUserProductsTable extends Migration
+class CreateIauctionsProviderProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateIauctionsUserProductsTable extends Migration
      */
     public function up()
     {
-        Schema::create('iauctions__userproducts', function (Blueprint $table) {
+        Schema::create('iauctions__provider_product', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             
@@ -22,7 +22,7 @@ class CreateIauctionsUserProductsTable extends Migration
             
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('iauctions__products');
-
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateIauctionsUserProductsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('iauctions__userproducts');
+        Schema::dropIfExists('iauctions__provider_product');
     }
 }

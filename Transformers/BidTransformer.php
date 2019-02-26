@@ -23,7 +23,10 @@ class BidTransformer extends Resource
       'freight_term' => $this->freight_term,
       'freight_price' => $this->freight_price,
       'total_price' => $this->total_price,
-      'options' => $this->options
+      'options' => $this->options,
+      'code_user' => $this->code_user,
+      'concentration' => $this->concentration,
+      'created_at' => $this->created_at
     ];
 
      /*Transform Relation Ships*/

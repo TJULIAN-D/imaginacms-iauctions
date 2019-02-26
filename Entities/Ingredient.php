@@ -36,10 +36,8 @@ class Ingredient extends Model
     }
 
     public function getOptionsAttribute($value) {
-        if(!is_string(json_decode($value))){
-            return json_decode($value);
-        }
-        return json_decode(json_decode($value));
+         return json_decode($value);
     }
+
 
 }

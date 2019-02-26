@@ -11,7 +11,7 @@ use Modules\Notification\Services\Notification;
 use Modules\User\Contracts\Authentication;
 use Modules\User\Repositories\UserRepository;
 use Route;
-
+use Illuminate\Support\Facades\Auth;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Iauctions\Repositories\AuctionProviderRepository;
 use Modules\Iauctions\Repositories\BidRepository;
@@ -49,11 +49,12 @@ class BidController extends BaseApiController
   {
 
     try {
-
-      $user = $this->auth->user();
+        //return $request->all();
+      $user = Auth::user();
 
       // Check if Provider was APPROVED to create a Bid
-      $provider = $this->auctionProvider->getByAuctionUser($auctionid,$user->id);
+      $provider = $this->auctionProvider->ByAuctionUser($auctionid,$user->id);
+
       if($provider->status==1){
 
         $request->merge(['auction_id' => $auctionid]);
@@ -61,7 +62,15 @@ class BidController extends BaseApiController
 
         // Save Bid
         $bid = $this->bid->create($request->all());
-        
+        // send pusher
+
+        //update longerterm if up now
+        $auction = $this->auction->find($auctionid);
+        if ($request->longerterm > $auction->longerterm){
+            $this->auction->update($auction, ['longerterm' => $request->longerterm]);
+            //send pusher
+        }
+
         // Msjs
         $responseTitle = trans('core::core.messages.resource created', ['name' => trans('iauctions::bids.single')]);
         $statusTitle = "success";
@@ -72,7 +81,7 @@ class BidController extends BaseApiController
         $statusTitle = "warning";
 
       }
-     
+
       $status = 200;
       $response = [
           $statusTitle => [
@@ -87,7 +96,7 @@ class BidController extends BaseApiController
               ]
           ]
       ];
-    
+
     } catch (\Exception $e) {
       Log::error($e);
       $status = 500;
@@ -103,9 +112,9 @@ class BidController extends BaseApiController
     }
 
     return response()->json($response, $status ?? 200);
- 
+
   }
-  
+
   /**
      * Get Data from Bids
      *
@@ -114,19 +123,19 @@ class BidController extends BaseApiController
      */
   public function bids(Request $request)
   {
-     
+
     try {
-  
+
         $p = $this->parametersUrl(false, false, false, []);
         $bids = $this->bid->index($p->page, $p->take, $p->filter, $p->include);
-      
+
         $response = ["data" => BidTransformer::collection($bids)];
-        
+
         //If request pagination add meta-page
         $p->page ? $response["meta"] = ["page" => $this->pageTransformer($bids)] : false;
-        
+
       } catch (\ErrorException $e) {
-  
+
         $status = 500;
         $response = ['errors' => [
           "code" => "500",
@@ -136,11 +145,11 @@ class BidController extends BaseApiController
           "title" => "Error",
           "detail" => $e->getMessage()
         ]];
-  
+
       }//catch
-  
+
     return response()->json($response, $status ?? 200);
-  
+
   }
 
 
@@ -153,14 +162,14 @@ class BidController extends BaseApiController
   public function bid($param,Request $request)
   {
       try {
-         
+
           $p = $this->parametersUrl(false, false, false, []);
           $bid = $this->bid->show($param, $p->include);
-  
+
           $response = ["data" => is_null($bid) ? false : new BidTransformer($bid)];
-  
+
       } catch (\Exception $e) {
-         
+
           $status = 500;
           $response = [
             "code" => "500",
@@ -172,10 +181,10 @@ class BidController extends BaseApiController
           ];
       }
       return response()->json($response, $status ?? 200);
-  
+
   }
 
- 
+
 
 
 

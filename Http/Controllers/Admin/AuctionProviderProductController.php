@@ -25,18 +25,6 @@ class AuctionProviderProductController extends AdminBaseController
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //$auctionproviderproducts = $this->auctionproviderproduct->all();
-
-        return view('iauctions::admin.auctionproviderproducts.index', compact(''));
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return Response

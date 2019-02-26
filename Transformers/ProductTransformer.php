@@ -3,40 +3,26 @@
 namespace Modules\Iauctions\Transformers;
 
 use Illuminate\Http\Resources\Json\Resource;
-use Modules\Iauctions\Transformers\CategoryTransformer;
-use Modules\Iauctions\Transformers\IngredientTransformer;
 
 class ProductTransformer extends Resource
 {
-  public function toArray($request)
-  {
+    public function toArray($request)
+    {
 
-    $includes = explode(",", $request->include);
+        $data = [
 
-    /*Values to return*/
-    $data = [
-      'id' => $this->id, 
-      'name' => $this->name,
-      'slug' => $this->slug,
-      'unity' => $this->unity,
-      'unityName' => iauctions_get_unity()->get($this->unity),
-      'concentration' => $this->concentration,
-      'dosis_ha' => $this->dosis_ha,
-      'status' => $this->status,
-      'statusName' => iauctions_get_status()->get($this->status),
-      'options' => $this->options,
-    ];
+            'id' => $this->when($this->id, $this->id),
+            'name' => $this->when($this->name, $this->name),
+            'unity' => $this->when($this->unity, $this->unity),
+            'unityName' => $this->when($this->unity, iauctions_get_unity()->get($this->unity)),
+            'concentration' => $this->when($this->concentration, $this->concentration),
+            'dosis_ha' => $this->when($this->dosis_ha, $this->dosis_ha),
+            'status' => $this->when($this->status, $this->status),
+            'options' =>$this->when($this->options, $this->options),
+            'ingredient'=> new IngredientTransformer($this->whenLoaded('ingredient')),
+        ];
 
-    /*Transform Relation Ships*/
-    if (in_array('category', $includes)) {
-      $data['category'] = new CategoryTransformer($this->category);
+        return $data;
+
     }
-   
-    if (in_array('ingredient', $includes)) {
-      $data['ingredient'] = new IngredientTransformer($this->ingredient);
-    }
-    
-    return $data;
-
-  }
 }

@@ -28,7 +28,6 @@ class ProductController extends AdminBaseController
     private $product;
     private $user;
     protected $auth;
-    private $category;
     private $ingredient;
     private $unity;
 
@@ -36,7 +35,6 @@ class ProductController extends AdminBaseController
         ProductRepository $product,
         Authentication $auth, 
         UserRepository $user,
-        CategoryRepository $category,
         IngredientRepository $ingredient,
         Unity $unity
     ){
@@ -45,7 +43,6 @@ class ProductController extends AdminBaseController
         $this->product = $product;
         $this->user = $user;
         $this->auth = $auth;
-        $this->category = $category;
         $this->ingredient = $ingredient;
         $this->unity = $unity;
     }
@@ -67,11 +64,10 @@ class ProductController extends AdminBaseController
      * @return Response
      */
     public function create()
-    {   
-        $categories = $this->category->all();
+    {
         $ingredients = $this->ingredient->all();
         $unity = $this->unity;
-        return view('iauctions::admin.products.create',compact('categories','ingredients','unity'));
+        return view('iauctions::admin.products.create',compact('ingredients','unity'));
     }
 
     /**
@@ -96,10 +92,9 @@ class ProductController extends AdminBaseController
      */
     public function edit(Product $product)
     {
-        $categories = $this->category->all();
-        $ingredients = $this->ingredient->all();
+             $ingredients = $this->ingredient->all();
         $unity = $this->unity;
-        return view('iauctions::admin.products.edit', compact('product','categories','ingredients','unity'));
+        return view('iauctions::admin.products.edit', compact('product','ingredients','unity'));
     }
 
     /**

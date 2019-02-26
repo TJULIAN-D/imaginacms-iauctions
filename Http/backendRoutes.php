@@ -83,74 +83,14 @@ $router->group(['prefix' =>'/iauctions'], function (Router $router) {
     $router->bind('bid', function ($id) {
         return app('Modules\Iauctions\Repositories\BidRepository')->find($id);
     });
-    */
 
-    $router->get('bids', [
-        'as' => 'admin.iauctions.bid.index',
-        'uses' => 'BidController@index',
-        'middleware' => 'can:iauctions.bids.index'
-    ]);
-    $router->get('bids/create', [
-        'as' => 'admin.iauctions.bid.create',
-        'uses' => 'BidController@create',
-        'middleware' => 'can:iauctions.bids.create'
-    ]);
-    $router->post('bids', [
-        'as' => 'admin.iauctions.bid.store',
-        'uses' => 'BidController@store',
-        'middleware' => 'can:iauctions.bids.create'
-    ]);
+*/
+
     $router->get('bids/{id}/edit', [
         'as' => 'admin.iauctions.bid.edit',
         'uses' => 'BidController@edit',
         'middleware' => 'can:iauctions.bids.edit'
     ]);
-    $router->put('bids/{bid}', [
-        'as' => 'admin.iauctions.bid.update',
-        'uses' => 'BidController@update',
-        'middleware' => 'can:iauctions.bids.edit'
-    ]);
-    $router->delete('bids/{bid}', [
-        'as' => 'admin.iauctions.bid.destroy',
-        'uses' => 'BidController@destroy',
-        'middleware' => 'can:iauctions.bids.destroy'
-    ]);
-
-
-    $router->bind('category', function ($id) {
-        return app('Modules\Iauctions\Repositories\CategoryRepository')->find($id);
-    });
-    $router->get('categories', [
-        'as' => 'admin.iauctions.category.index',
-        'uses' => 'CategoryController@index',
-        'middleware' => 'can:iauctions.categories.index'
-    ]);
-    $router->get('categories/create', [
-        'as' => 'admin.iauctions.category.create',
-        'uses' => 'CategoryController@create',
-        'middleware' => 'can:iauctions.categories.create'
-    ]);
-    $router->post('categories', [
-        'as' => 'admin.iauctions.category.store',
-        'uses' => 'CategoryController@store',
-        'middleware' => 'can:iauctions.categories.create'
-    ]);
-    $router->get('categories/{category}/edit', [
-        'as' => 'admin.iauctions.category.edit',
-        'uses' => 'CategoryController@edit',
-        'middleware' => 'can:iauctions.categories.edit'
-    ]);
-    $router->put('categories/{category}', [
-        'as' => 'admin.iauctions.category.update',
-        'uses' => 'CategoryController@update',
-        'middleware' => 'can:iauctions.categories.edit'
-    ]);
-    $router->delete('categories/{category}', [
-        'as' => 'admin.iauctions.category.destroy',
-        'uses' => 'CategoryController@destroy',
-        'middleware' => 'can:iauctions.categories.destroy'
-    ]);
-
 
     $router->bind('ingredient', function ($id) {
         return app('Modules\Iauctions\Repositories\IngredientRepository')->find($id);

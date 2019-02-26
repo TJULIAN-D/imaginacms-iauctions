@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class AuctionProviderProduct extends Model
 {
 
-    protected $table = 'iauctions__auctionproviderproducts';
+    protected $table = 'iauctions__auction_provider_product';
     protected $fillable = [
-        'auctionprovider_id',
-        'product_id'
+        'auction_provider_id',
+        'product_id',
+        'status'
     ];
 
-    public function auctionprovider()
+    public function auctionProvider()
     {
         return $this->belongsTo(AuctionProvider::class);
     }
@@ -22,8 +23,6 @@ class AuctionProviderProduct extends Model
     {
         return $this->belongsTo("Modules\Iauctions\Entities\Product");
     }
-
-    
 
 }
 

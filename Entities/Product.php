@@ -11,11 +11,8 @@ class Product extends Model
    
     protected $fillable = [
         'name',
-        'slug',
         'unity',
         'concentration',
-        'dosis_ha',
-        'category_id',
         'ingredient_id',
         'status',
         'options',
@@ -26,11 +23,6 @@ class Product extends Model
     protected $casts = [
         'options' => 'array'
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 
     public function ingredient()
     {
@@ -48,29 +40,17 @@ class Product extends Model
         return $this->hasMany(Auction::class);
     }
 
-    public function auctionproviderproducts(){
-        return $this->hasMany(AuctionProviderProduct::class);
+    public function auctionProvider(){
+        return $this->belongsToMany(AuctionProvider::class, 'iauctions__auction_provider_product');
     }
 
     public function bids(){
         return $this->hasMany(Bid::class);
     }
 
-    protected function setSlugAttribute($value){
-
-        if(!empty($value)){
-            $this->attributes['slug'] = str_slug($value,'-');
-        }else{
-            $this->attributes['slug'] = str_slug($this->name,'-');
-        }
-       
-    }
-
     public function getOptionsAttribute($value) {
-        if(!is_string(json_decode($value))){
-            return json_decode($value);
-        }
-        return json_decode(json_decode($value));
+
+        return json_decode($value);
     }
 
 

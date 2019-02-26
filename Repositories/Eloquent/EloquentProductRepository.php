@@ -2,80 +2,119 @@
 
 namespace Modules\Iauctions\Repositories\Eloquent;
 
-use Modules\Iauctions\Repositories\ProductRepository;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Iauctions\Repositories\ProductRepository;
 
 class EloquentProductRepository extends EloquentBaseRepository implements ProductRepository
 {
 
-     /**
-     * Return products by parameters
-     *
-     * @param $page
-     * @param $take
-     * @param $filter
-     * @param $include
-     * @return mixed
-     */
-    public function index($page, $take, $filter, $include){
-        
+    public function getItemsBy($params = false)
+    {
+        /*== initialize query ==*/
         $query = $this->model->query();
 
-        /*== FILTER ==*/
-        if ($filter) {
-
-            //Status Auction
-            if (isset($filter->status)) {
-                $query->whereIn('status',$filter->status);  
-            }
-           
-            //Add order By
-            $orderBy = isset($filter->orderBy) ? $filter->orderBy : 'created_at';
-            $orderType = isset($filter->orderType) ? $filter->orderType : 'desc';
-            $query->orderBy($orderBy, $orderType);
-
+        /*== RELATIONSHIPS ==*/
+        if (in_array('*', $params->include)) {//If Request all relationships
+            $query->with(['ingredient', 'users', 'auctions', 'auctionProvider', 'bids']);
+        } else {//Especific relationships
+            $includeDefault = [];//Default relationships
+            if (isset($params->include))//merge relations with default relationships
+                $includeDefault = array_merge($includeDefault, $params->include);
+            $query->with($includeDefault);//Add Relationships to query
         }
 
-        /*=== REQUEST ===*/
-         if ($page) {//Return request with pagination
-            $take ? true : $take = 12; //If no specific take, query default take is 12
-            return $query->paginate($take);
-        } else {//Return request without pagination
-            $take ? $query->take($take) : false; //Set parameter take(limit) if is requesting
+        /*== FILTERS ==*/
+        if (isset($params->filter)) {
+            $filter = $params->filter;//Short filter
+
+            //Filter by date
+            if (isset($filter->date)) {
+                $date = $filter->date;//Short filter date
+                $date->field = $date->field ?? 'created_at';
+                if (isset($date->from))//From a date
+                    $query->whereDate($date->field, '>=', $date->from);
+                if (isset($date->to))//to a date
+                    $query->whereDate($date->field, '<=', $date->to);
+            }
+
+            if (isset($filter->ingredient)) {
+                is_array($filter->ingredient) ? true : $filter->ingredient = [$filter->ingredient];
+                $query->whereIn('ingredient_id',$filter->ingredient);
+            }
+
+            if (isset($filter->concentration)) {
+                $concentration=(object)$filter->concentration;
+                $query->whereBetween('concentration',[$concentration->min,$concentration->max]);
+            }
+
+            if (isset($filter->status)) {
+                is_array($filter->status) ? true : $filter->status = [$filter->status];
+                $query->whereIn('status', $filter->status);
+            }
+
+            //Order by
+            if (isset($filter->order)) {
+                $orderByField = $filter->order->field ?? 'created_at';//Default field
+                $orderWay = $filter->order->way ?? 'desc';//Default way
+                $query->orderBy($orderByField, $orderWay);//Add order to query
+            }
+        }
+
+        /*== FIELDS ==*/
+        if (isset($params->fields) && count($params->fields))
+            $query->select($params->fields);
+
+        /*== REQUEST ==*/
+        if (isset($params->page) && $params->page) {
+            return $query->paginate($params->take);
+        } else {
+            $params->take ? $query->take($params->take) : false;//Take
             return $query->get();
         }
-
     }
 
-     /**
-     * Return product data
-     *
-     * @param $slug
-     * @param $include
-     * @return mixed
-     */
-    public function show($param, $include)
+    public function getItem($criteria, $params = false)
     {
-        //Initialize Query
+        //Initialize query
         $query = $this->model->query();
-        $query = $this->model->where('slug', $param);
 
-        /*=== REQUEST ===*/
-        return $query->first();
+        /*== RELATIONSHIPS ==*/
+        if (in_array('*', $params->include)) {//If Request all relationships
+            $query->with([]);
+        } else {//Especific relationships
+            $includeDefault = [];//Default relationships
+            if (isset($params->include))//merge relations with default relationships
+                $includeDefault = array_merge($includeDefault, $params->include);
+            $query->with($includeDefault);//Add Relationships to query
+        }
+
+        /*== FILTER ==*/
+        if (isset($params->filter)) {
+            $filter = $params->filter;
+
+            if (isset($filter->field))//Filter by specific field
+                $field = $filter->field;
+        }
+
+        /*== FIELDS ==*/
+        if (isset($params->fields) && count($params->fields))
+            $query->select($params->fields);
+
+        /*== REQUEST ==*/
+        return $query->where($field ?? 'id', $criteria)->first();
     }
 
-
-     /**
+    /**
      * Return Products with relations (Index Backend)
      *
      * @return products collection
      */
-    public function allWithRelations(){
-        
-        return $this->model->with(['category', 'ingredient'])
+    public function allWithRelations()
+    {
+
+        return $this->model->with(['ingredient'])
             ->orderBy('created_at', 'DESC')->paginate(12);
     }
-    
 
 
 }

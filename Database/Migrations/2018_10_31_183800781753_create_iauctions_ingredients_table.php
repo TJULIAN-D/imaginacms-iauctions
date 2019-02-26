@@ -15,10 +15,8 @@ class CreateIauctionsIngredientsTable extends Migration
         Schema::create('iauctions__ingredients', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            
             // Your fields
             $table->string('title');
-            $table->string('slug');
             $table->text('options')->default('')->nullable();
             $table->timestamps();
         });

@@ -39,15 +39,6 @@ class IauctionsServiceProvider extends ServiceProvider
             $event->load('auctionproviders', array_dot(trans('iauctions::auctionproviders')));
             // append translations
 
-
-
-
-
-
-
-
-
-
         });
     }
 
@@ -105,18 +96,6 @@ class IauctionsServiceProvider extends ServiceProvider
                 }
 
                 return new \Modules\Iauctions\Repositories\Cache\CacheBidDecorator($repository);
-            }
-        );
-        $this->app->bind(
-            'Modules\Iauctions\Repositories\CategoryRepository',
-            function () {
-                $repository = new \Modules\Iauctions\Repositories\Eloquent\EloquentCategoryRepository(new \Modules\Iauctions\Entities\Category());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Iauctions\Repositories\Cache\CacheCategoryDecorator($repository);
             }
         );
         $this->app->bind(

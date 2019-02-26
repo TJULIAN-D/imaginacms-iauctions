@@ -13,4 +13,40 @@ class CacheAuctionProviderDecorator extends BaseCacheDecorator implements Auctio
         $this->entityName = 'iauctions.auctionproviders';
         $this->repository = $auctionprovider;
     }
+
+    /**
+     * @param bool $params
+     * @return mixed
+     */
+    public function getItemsBy($params = false)
+    {
+        return $this->remember(function () use ($params) {
+            return $this->repository->getItemsBy($params);
+        });
+    }
+
+
+    /**
+     * @param $criteria
+     * @param bool $params
+     * @return mixed
+     */
+    public function getItem($criteria, $params = false)
+    {
+        return $this->remember(function () use ($criteria, $params) {
+            return $this->repository->getItem($criteria, $params);
+        });
+    }
+
+    /**
+     * @param $auctionID
+     * @param $userID
+     * @return mixed
+     */
+    public function ByAuctionUser($auctionID, $userID)
+    {
+        return $this->remember(function () use ($auctionID, $userID) {
+            return $this->repository->ByAuctionUser($auctionID, $userID);
+        });
+    }
 }

@@ -17,15 +17,18 @@ class Auction extends Model
         'finished_at',
         'quantity',
         'area',
-        'longerterm',
-        'financialcost_daily',
-        'financialcost_monthly',
-        'longerterm_freight',
+        'longer_term',
+        'financial_cost_daily',
+        'financial_cost_monthly',
+        'longer_term_freight',
         'product_id',
-        'status', 
+        'ingredient_id',
+        'status',
         'user_id',
         'winner_id',
-        'options'
+        'winner_value',
+        'options',
+
     ];
 
     protected $fakeColumns = ['options'];
@@ -44,22 +47,24 @@ class Auction extends Model
     {
         return $this->belongsTo("Modules\Iauctions\Entities\Product");
     }
+    public function ingredient()
+    {
+        return $this->belongsTo("Modules\Iauctions\Entities\Ingredient");
+    }
 
-    public function auctionproviders()
+    public function auctionProviders()
     {
         return $this->hasMany(AuctionProvider::class);
     }
 
     public function bid()
     {
-        return $this->hasMany(AuctionProvider::class);
+        return $this->hasMany(Bid::class);
     }
 
     public function getOptionsAttribute($value) {
-        if(!is_string(json_decode($value))){
-            return json_decode($value);
-        }
-        return json_decode(json_decode($value));
+
+        return json_decode($value);
     }
     
 

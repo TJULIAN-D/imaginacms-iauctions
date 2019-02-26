@@ -10,11 +10,10 @@ use Modules\Iauctions\Http\Requests\UpdateAuctionRequest;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Modules\Iauctions\Entities\StatusAuction;
-
 use Modules\User\Contracts\Authentication;
 use Modules\User\Repositories\UserRepository;
-
 use Carbon\Carbon;
+use Modules\Iauctions\Repositories\ProductRepository;
 
 class AuctionController extends AdminBaseController
 {
@@ -25,12 +24,14 @@ class AuctionController extends AdminBaseController
     private $status;
     private $user;
     protected $auth;
+    protected $product;
 
     public function __construct(
         AuctionRepository $auction,
         StatusAuction $status,
         Authentication $auth,
-        UserRepository $user
+        UserRepository $user,
+        ProductRepository $product
     ){
         parent::__construct();
 
@@ -38,6 +39,7 @@ class AuctionController extends AdminBaseController
         $this->status = $status;
         $this->user = $user;
         $this->auth = $auth;
+        $this->product = $product;
     }
 
     /**
@@ -70,15 +72,17 @@ class AuctionController extends AdminBaseController
      */
     public function store(CreateAuctionRequest $request)
     {
-        
         $user = $this->auth->user();
         $dateTime = Carbon::createFromFormat('d/m/Y g:ia', $request->started_at);
         $dateTime2 = Carbon::createFromFormat('d/m/Y g:ia', $request->finished_at);
-       
+
         $request->merge(['user_id' => $user->id]);
         $request->merge(['started_at' => $dateTime]);
         $request->merge(['finished_at' => $dateTime2]);
-        
+
+        $ingredient_id = $this->product->find($request->product_id)->ingredient_id;
+        $request->merge(['ingredient_id' => $ingredient_id]);
+
         $this->auction->create($request->all());
 
         return redirect()->route('admin.iauctions.auction.index')
@@ -109,7 +113,7 @@ class AuctionController extends AdminBaseController
 
         $dateTime = Carbon::createFromFormat('d/m/Y g:ia', $request->started_at);
         $dateTime2 = Carbon::createFromFormat('d/m/Y g:ia', $request->finished_at);
-       
+
         $request->merge(['started_at' => $dateTime]);
         $request->merge(['finished_at' => $dateTime2]);
 

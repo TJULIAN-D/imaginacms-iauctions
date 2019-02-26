@@ -46,11 +46,15 @@
         $( document ).ready(function() {
             $(document).keypressAction({
                 actions: [
-                    { key: 'b', route: "<?= route('admin.iauctions.bid.index') ?>" }
                 ]
             });
         });
     </script>
+
+
+
+
+
     <script>
         $( document ).ready(function() {
             $('input[type="checkbox"].flat-blue, input[type="radio"].flat-blue').iCheck({

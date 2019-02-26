@@ -11,25 +11,32 @@ use Modules\Notification\Services\Notification;
 use Modules\User\Contracts\Authentication;
 use Modules\User\Repositories\UserRepository;
 use Route;
-
+use Illuminate\Support\Facades\Auth;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Iauctions\Transformers\AuctionTransformer;
-
+use Modules\Iauctions\Entities\UserProduct;
+use Modules\Iauctions\Entities\Product;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;  //Base API
 
 class AuctionController extends BaseApiController
 {
 
   private $auction;
+  private $userproduct;
+  private $product;
 
   public function __construct(
-    AuctionRepository $auction
+    AuctionRepository $auction,
+    UserProduct $userproduct,
+    Product $product
   ){
 
       parent::__construct();
       $this->auction = $auction;
+      $this->userproduct = $userproduct;
+      $this->product = $product;
 
-  } 
+  }
 
    /**
      * Get Data from Auctions
@@ -37,67 +44,65 @@ class AuctionController extends BaseApiController
      * @param Request $request
      * @return mixed
      */
-  public function auctions(Request $request)
-  {
-   
-    try {
 
-      $p = $this->parametersUrl(false, false, false, []);
-      $auctions = $this->auction->index($p->page, $p->take, $p->filter, $p->include);
+   /**
+      * GET ITEMS
+      *
+      * @return mixed
+      */
+     public function index(Request $request)
+     {
+       try {
+         //Get Parameters from URL.
+         $params = $this->getParamsRequest($request);
 
-      $response = ["data" => AuctionTransformer::collection($auctions)];
-      
-      //If request pagination add meta-page
-      $p->page ? $response["meta"] = ["page" => $this->pageTransformer($auctions)] : false;
-      
-    } catch (\ErrorException $e) {
+         //Request to Repository
+         $dataEntity = $this->auction->getItemsBy($params);
 
-      $status = 500;
-      $response = ['errors' => [
-        "code" => "500",
-        "source" => [
-          "pointer" => "api/iauctions/auctions",
-        ],
-        "title" => "Error",
-        "detail" => $e->getMessage()
-      ]];
+         //Response
+         $response = ["data" => AuctionTransformer::collection($dataEntity)];
 
-    }//catch
+         //If request pagination add meta-page
+         $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
+       } catch (\Exception $e) {
+         $status = $this->getStatusError($e->getCode());
+         $response = ["errors" => $e->getMessage()];
+       }
 
-    return response()->json($response, $status ?? 200);
+       //Return response
+       return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+     }
+     /**
+        * GET A ITEM
+        *
+        * @param $criteria
+        * @return mixed
+        */
+       public function show($criteria,Request $request)
+       {
+         try {
+           //Get Parameters from URL.
+           $params = $this->getParamsRequest($request);
 
-  }
+           //Request to Repository
+           $dataEntity = $this->auction->getItem($criteria, $params);
 
-  /**
-     * Get Data by auction
-     *
-     * @param Request $request
-     * @return mixed
-     */
-  public function auction($param,Request $request)
-  {
-      try {
-       
-        $p = $this->parametersUrl(false, false, false, []);
-        $auction = $this->auction->show($param, $p->include);
+           //Break if no found item
+           if(!$dataEntity) throw new Exception('Item not found',204);
 
-        $response = ["data" => is_null($auction) ? false : new AuctionTransformer($auction)];
+           //Response
+           $response = ["data" => new EntityTranformer($dataEntity)];
 
-    } catch (\Exception $e) {
-       
-        $status = 500;
-        $response = [
-          "code" => "500",
-          "source" => [
-            "pointer" => "api/iauctions/auction",
-          ],
-          "title" => "Error",
-          "detail" => $e->getMessage()
-        ];
-    }
-    return response()->json($response, $status ?? 200);
+           //If request pagination add meta-page
+           $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
+         } catch (\Exception $e) {
+           $status = $this->getStatusError($e->getCode());
+           $response = ["errors" => $e->getMessage()];
+         }
 
-  }
+         //Return response
+         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+       }
 
 
 

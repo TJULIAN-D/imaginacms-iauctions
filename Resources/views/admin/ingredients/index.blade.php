@@ -31,7 +31,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>{{ trans('iauctions::categories.table.title') }}</th>
-                                <th>{{ trans('iauctions::categories.table.slug') }}</th>
                                 <th>{{ trans('core::core.table.created at') }}</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
@@ -42,7 +41,6 @@
                             <tr>
                                 <td>{{$ingredient->id}}</td>
                                 <td>{{$ingredient->title}}</td>
-                                <td>{{$ingredient->slug}}</td>
                                 <td>
                                     <a href="{{ route('admin.iauctions.ingredient.edit', [$ingredient->id]) }}">
                                         {{ $ingredient->created_at }}
@@ -62,7 +60,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>{{ trans('iauctions::categories.table.title') }}</th>
-                                <th>{{ trans('iauctions::categories.table.slug') }}</th>
                                 <th>{{ trans('core::core.table.created at') }}</th>
                                 <th>{{ trans('core::core.table.actions') }}</th>
                             </tr>

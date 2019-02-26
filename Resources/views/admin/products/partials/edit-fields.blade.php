@@ -10,9 +10,7 @@
     <div class="col-xs-7 column-left">
 
         {!! Form::normalInput('name',trans('iauctions::products.table.name'), $errors,$product,$op) !!}
-            
-        {!! Form::normalInput('slug',trans('iauctions::products.table.slug'), $errors,$product) !!}
-        
+
         <div class="form-group">
             <label for="unity">{{trans('iauctions::products.table.unity')}}</label>
             <select class="form-control" id="unity" name="unity" required>
@@ -24,7 +22,6 @@
        
         {!! Form::normalInputOfType('number','concentration', trans('iauctions::products.table.concentration'), $errors,$product,$opFloat) !!}
 
-        {!! Form::normalInputOfType('number','dosis_ha', trans('iauctions::products.table.dosis_ha'), $errors,$product,$opFloat) !!}
 
     </div>
 
@@ -35,15 +32,6 @@
             <select class="form-control" id="ingredient_id" name="ingredient_id" required>
                 @foreach ($ingredients as $index => $ingredient)
                     <option value="{{$ingredient->id}}" @if($ingredient->id==$product->ingredient_id) selected @endif >{{$ingredient->title}}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="category">{{trans('iauctions::categories.single')}}</label>
-            <select class="form-control" id="category_id" name="category_id" required>
-                @foreach ($categories as $index => $category)
-                    <option value="{{$category->id}}" @if($category->id==$product->category_id) selected @endif >{{$category->title}}</option>
                 @endforeach
             </select>
         </div>

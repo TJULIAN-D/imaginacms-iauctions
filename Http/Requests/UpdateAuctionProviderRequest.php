@@ -8,7 +8,11 @@ class UpdateAuctionProviderRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'auction_id'=>'required',
+            'provider_id'=>'required',
+            'status'=>'required'
+        ];
     }
 
     public function translationRules()
@@ -23,7 +27,12 @@ class UpdateAuctionProviderRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [];
+        return [
+            'auction_id.required' => trans('iauctions::autionproviders.messages.Auction is required'),
+            'provider_id.required' => trans('iauctions::autionproviders.messages.Provider is required'),
+            'status.required' => trans('iauctions::autionproviders.messages.Status is required'),
+
+        ];
     }
 
     public function translationMessages()

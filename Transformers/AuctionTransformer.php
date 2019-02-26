@@ -15,10 +15,11 @@ class AuctionTransformer extends Resource
     /*Values to return*/
     $data = [
       "id" => $this->id,
+       "title" => $this->title,
       'description' => $this->description,
       'base_price' => $this->base_price,
-      'started_at' => iauctions_format_date($this->started_at),
-      'finished_at' => iauctions_format_date($this->finished_at),
+      'started_at' => $this->started_at,
+      'finished_at' => $this->finished_at,
       'quantity' => $this->quantity,
       'area' => $this->area,
       'longerterm' => $this->longerterm,
@@ -37,6 +38,9 @@ class AuctionTransformer extends Resource
         $data['product'] = new ProductTransformer($this->product);
     }
 
+    if (in_array('auctionproviders', $includes)) {
+      $data['auctionproviders'] = $this->auctionproviders;
+    }
 
     return $data;
 

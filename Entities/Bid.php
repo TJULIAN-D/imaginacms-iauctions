@@ -13,12 +13,14 @@ class Bid extends Model
         'user_id',
         'product_id',
         'price',
-        'longerterm',
+        'longer_term',
         'tax',
         'freight_term',
         'freight_price',
         'total_price',
-        'options'
+        'options',
+        'code_user',
+        'concentration'
     ];
 
     protected $fakeColumns = ['options'];
@@ -44,10 +46,8 @@ class Bid extends Model
     }
 
     public function getOptionsAttribute($value) {
-        if(!is_string(json_decode($value))){
-            return json_decode($value);
-        }
-        return json_decode(json_decode($value));
+
+        return json_decode($value);
     }
 
 

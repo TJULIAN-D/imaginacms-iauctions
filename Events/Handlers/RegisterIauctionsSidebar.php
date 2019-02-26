@@ -41,7 +41,7 @@ class RegisterIauctionsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
                 $item->icon('fa fa-gavel');
                 $item->weight(10);
                 $item->authorize(
-                     /* append */
+                /* append */
                 );
                 $item->item(trans('iauctions::products.plural'), function (Item $item) {
                     $item->icon('fa fa-arrow-circle-up');
@@ -61,26 +61,7 @@ class RegisterIauctionsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
                         $this->auth->hasAccess('iauctions.auctions.index')
                     );
                 });
-                /*
-                $item->item(trans('iauctions::bids.title.bids'), function (Item $item) {
-                    $item->icon('fa fa-copy');
-                    $item->weight(0);
-                    $item->append('admin.iauctions.bid.create');
-                    $item->route('admin.iauctions.bid.index');
-                    $item->authorize(
-                        $this->auth->hasAccess('iauctions.bids.index')
-                    );
-                });
-                */
-                $item->item(trans('iauctions::categories.plural'), function (Item $item) {
-                    $item->icon('fa fa-list');
-                    $item->weight(0);
-                    $item->append('admin.iauctions.category.create');
-                    $item->route('admin.iauctions.category.index');
-                    $item->authorize(
-                        $this->auth->hasAccess('iauctions.categories.index')
-                    );
-                });
+
                 $item->item(trans('iauctions::ingredients.plural'), function (Item $item) {
                     $item->icon('fa fa-eyedropper');
                     $item->weight(1);
@@ -90,51 +71,6 @@ class RegisterIauctionsSidebar implements \Maatwebsite\Sidebar\SidebarExtender
                         $this->auth->hasAccess('iauctions.ingredients.index')
                     );
                 });
-                /*
-                $item->item(trans('iauctions::userproducts.title.userproducts'), function (Item $item) {
-                    $item->icon('fa fa-copy');
-                    $item->weight(0);
-                    $item->append('admin.iauctions.userproduct.create');
-                    $item->route('admin.iauctions.userproduct.index');
-                    $item->authorize(
-                        $this->auth->hasAccess('iauctions.userproducts.index')
-                    );
-                });
-                */
-                /*
-                $item->item(trans('iauctions::auctionproviders.title.auctionproviders'), function (Item $item) {
-                    $item->icon('fa fa-copy');
-                    $item->weight(0);
-                    $item->append('admin.iauctions.auctionprovider.create');
-                    $item->route('admin.iauctions.auctionprovider.index');
-                    $item->authorize(
-                        $this->auth->hasAccess('iauctions.auctionproviders.index')
-                    );
-                });
-                */
-                /*
-                $item->item(trans('iauctions::auctionproviderproducts.title.auctionproviderproducts'), function (Item $item) {
-                    $item->icon('fa fa-copy');
-                    $item->weight(0);
-                    $item->append('admin.iauctions.auctionproviderproduct.create');
-                    $item->route('admin.iauctions.auctionproviderproduct.index');
-                    $item->authorize(
-                        $this->auth->hasAccess('iauctions.auctionproviderproducts.index')
-                    );
-                });
-                */
-               
-// append
-
-
-
-
-
-
-
-
-
-
             });
         });
 
