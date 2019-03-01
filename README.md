@@ -22,6 +22,16 @@ with status **Draft**=0, **Pending**=1, **Published**=2, **Finished**=3
 
 ```
 https://mydomain.com/api/iauctions/auctions?filter={"order":{"field":"created_at","way":"asc"},"status":[1,2,3]}&include=product,ingredient&take=12&page=1
+
+
+include=user,product,ingredient,auctionProviders,bids
+filter={
+"order":{"field":"created_at","way":"asc"},
+"status":[1,2,3], //Pending=0, Approved=1 rejected=2
+"provider":{"id":1,"status":1},
+"date":{"field":"created_at","from":"01-01-2019", "to":"31-12-2019"}
+}
+
 ```
 whit order random
 
@@ -29,7 +39,7 @@ whit order random
 https://mydomain.com/api/iauctions/auctions?filter={"order":random,"status":[1,2,3]}&include=product,ingredient&take=12&page=1
 ```
 
-List provider's auctions whit status **Pending**=0, **Pending**=1 **rejected**=2
+List provider's auctions whit status **Pending**=0, **Approved**=1 **rejected**=2
 ```
 https://mydomain.com/api/iauctions/auctions?filter={"provider":{"id":1,"status":1}}&include=product,ingredient&take=12&page=1
 ```
@@ -76,34 +86,20 @@ filter{
 }
 includes=ingredient,autionProfiders,auctions
 ```
+
+
+## Bids
+###List all bids
+
+```$xslt
+https://mydomain.com/api/iauctions/auctions/bids?filter={"auction":1,"provider":1,"order":{"field":"created_at","way":"asc"}}
+```
+
+
 --
 
-#### List provider's auctions (Example with status = PENDING,PUBLISHED,FINISHED)
-https://mydomain.com/api/iauctions/auctions?page=1&take=10&filter={"orderBy":"started_at","orderType":"asc","status":[1,2,3]}&include=product,category,ingredient
-
-#### Get an auction (Parameter = auctionid)
-https://mydomain.com/api/iauctions/auctions/4?include=product,category,ingredient
 
 
-### Product
-
-#### List all Products (with status = APPROVED)
-https://mydomain.com/api/iauctions/products?page=1&take=10&filter={"status":[1]}&include=category,ingredient
-
-#### Get a product (Parameter = productslug)
-https://mydomain.com/api/iauctions/products/capsulagro?include=category,ingredient
-
-
-### Auction Provider (with products)
-
-#### Get a AuctionProvider (Parameter = auctionproviderid)
-https://mydomain.com/api/iauctions/auctionproviders/4?include=products
-
-#### Get a AuctionProvider By Auction and User(Parameter = auctionid)
-https://mydomain.com/api/iauctions/auctionproviders/auction/4?include=products
-
-#### Store (Parameters = auctionid, Products ids)
-https://mydomain.com/api/iauctions/auctionproviders/auction/4?productsid=1,2
 
 
 ### Bid

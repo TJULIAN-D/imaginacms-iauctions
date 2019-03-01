@@ -3,10 +3,14 @@
 namespace Modules\Iauctions\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
+use Modules\Core\Traits\NamespacedEntity;
+use Modules\Iauctions\Presenters\BidsPresenter;
 
 class Bid extends Model
 {
-    
+    use PresentableTrait, NamespacedEntity;
+
     protected $table = 'iauctions__bids';
     protected $fillable = [
         'auction_id',
@@ -25,11 +29,12 @@ class Bid extends Model
 
     protected $fakeColumns = ['options'];
 
+    protected $presenter = BidsPresenter::class;
     protected $casts = [
         'options' => 'array'
     ];
 
-    public function user()
+    public function provider()
     {
         $driver = config('asgard.user.config.driver');
         return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");

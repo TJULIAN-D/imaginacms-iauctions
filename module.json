@@ -9,7 +9,8 @@
     "providers": [
         "Modules\\Iauctions\\Providers\\IauctionsServiceProvider",
         "Modules\\Iauctions\\Providers\\RouteServiceProvider",
-        "Modules\\Iauctions\\Providers\\EventServiceProvider"
+        "Modules\\Iauctions\\Providers\\EventServiceProvider",
+        "Modules\\Imonitor\\Providers\\BroadcastServiceProvider"
     ],
     "aliases": {},
     "files": [

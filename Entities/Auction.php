@@ -3,10 +3,15 @@
 namespace Modules\Iauctions\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
+use Modules\Core\Traits\NamespacedEntity;
+use Modules\Iauctions\Presenters\AuctionsPresenter;
 
 class Auction extends Model
 {
-   
+
+    use PresentableTrait, NamespacedEntity;
+
     protected $table = 'iauctions__auctions';
    
     protected $fillable = [
@@ -33,40 +38,70 @@ class Auction extends Model
 
     protected $fakeColumns = ['options'];
 
+    protected $presenter = AuctionsPresenter::class;
     protected $casts = [
         'options' => 'array'
     ];
 
+    /**
+     * @return mixed
+     */
     public function user()
     {
         $driver = config('asgard.user.config.driver');
         return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
     }
 
+    /**
+     * @return mixed
+     */
     public function product()
     {
         return $this->belongsTo("Modules\Iauctions\Entities\Product");
     }
+
+    /**
+     * @return mixed
+     */
     public function ingredient()
     {
         return $this->belongsTo("Modules\Iauctions\Entities\Ingredient");
     }
 
+    /**
+     * @return mixed
+     */
     public function auctionProviders()
     {
         return $this->hasMany(AuctionProvider::class);
     }
 
-    public function bid()
+    /**
+     * @return mixed
+     */
+    public function bids()
     {
         return $this->hasMany(Bid::class);
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function getOptionsAttribute($value) {
 
         return json_decode($value);
     }
-    
+
+    /**
+     * Check if the post is in draft
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeApproved(Builder $query)
+    {
+        return $query->whereStatus(Status::APPROVED);
+    }
 
 
 }

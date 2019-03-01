@@ -18,12 +18,14 @@ class EloquentAuctionRepository extends EloquentBaseRepository implements Auctio
         /*== RELATIONSHIPS ==*/
 
         if (in_array('*', $params->include)) {                                                   //If Request all relationships
-            $query->with(['user', 'product', 'ingredient', 'auctionProviders', 'bid']);
+            $query->with(['user', 'product', 'ingredient', 'auctionProviders', 'bids']);
         } else {                                                                                        //Especific relationships
-            $includeDefault = [];                                                                       //Default relationships
+            $includeDefault = ['auctionProviders'];                                                                       //Default relationships
             if (isset($params->include))                                                                //merge relations with default relationships
                 $includeDefault = array_merge($includeDefault, $params->include);
+
             $query->with($includeDefault);                                                              //Add Relationships to query
+
         }
 
         /*== FILTERS ==*/
@@ -82,7 +84,6 @@ class EloquentAuctionRepository extends EloquentBaseRepository implements Auctio
         }
     }
 
-
     public function getItem($criteria, $params = false)
     {
         //Initialize query
@@ -104,6 +105,23 @@ class EloquentAuctionRepository extends EloquentBaseRepository implements Auctio
 
             if (isset($filter->field))//Filter by specific field
                 $field = $filter->field;
+            if (isset($filter->status)) {
+                is_array($filter->status) ? true : $filter->status = [$filter->status];
+                $query->whereIn('status', $filter->status);
+            }
+
+
+            if (isset($filter->provider)) {                                                              //Filter by provider
+                $provider = (object)$filter->provider;
+                $query->whereHas('auctionProviders', function ($query) use ($provider) {
+                    $query->where('provider_id', $provider->id);
+                    if (isset($provider->status)) {
+                        $query->where('status', $provider->status);
+                    }
+                });
+            }
+
+
         }
 
         /*== FIELDS ==*/

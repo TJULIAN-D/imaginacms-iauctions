@@ -28,19 +28,82 @@ $router->group(['prefix' => 'iauctions'], function (Router $router) {
             ]);
 
         });
+        $router->group(['prefix' => 'bid'], function (Router $router) {
+            //Route create
+            $router->post('/', [
+                'as' => 'iauctions.api.bid.create',
+                'uses' => 'BidController@create',
+                'middleware' => ['auth:api']
+            ]);
 
+            //Route index
+            $router->get('/', [
+                'as' => 'iauctions.api.bid.get.items.by',
+                'uses' => 'BidController@index',
+                'middleware' => ['auth:api']
+            ]);
 
+            //Route show
+            $router->get('/{criteria}', [
+                'as' => 'iauctions.api.bid.get.item',
+                'uses' => 'BidController@show',
+                'middleware' => ['auth:api']
+            ]);
+
+            //Route update
+            $router->put('/{criteria}', [
+                'as' => 'iauctions.api.bid.update',
+                'uses' => 'BidController@update',
+                'middleware' => ['auth:api']
+            ]);
+
+            //Route delete
+            $router->delete('/{criteria}', [
+                'as' => 'iauctions.api.bid.delete',
+                'uses' => 'BidController@delete',
+                'middleware' => ['auth:api']
+            ]);
+        });
+
+        //Route create
+        $router->post('/', [
+            'as' => 'iauctions.api.auction.create',
+            'uses' => 'AuctionController@create',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route index
         $router->get('/', [
-            'as' => 'iauctions.api.auctions',
-            'uses' => 'AuctionController@auctions',
+            'as' => 'iauctions.api.auction.get.items.by',
+            'uses' => 'AuctionController@index',
+            //'middleware' => ['auth:api']
+        ]);
+
+        //Route show
+        $router->get('/{criteria}', [
+            'as' => 'iauctions.api.auction.get.item',
+            'uses' => 'AuctionController@show',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route update
+        $router->put('/{criteria}', [
+            'as' => 'iauctions.api.auction.update',
+            'uses' => 'AuctionController@update',
+            'middleware' => ['auth:api']
+        ]);
+
+        //Route delete
+        $router->delete('/{criteria}', [
+            'as' => 'iauctions.api.auction.delete',
+            'uses' => 'AuctionController@delete',
+            'middleware' => ['auth:api']
         ]);
 
         $router->get('/{param}', [
             'as' => 'iauctions.api.auction',
             'uses' => 'AuctionController@auction',
         ]);
-
-
         $router->post('{auction_id}/join', [
             'as' => 'iauctions.api.auction.provider.store',
             'uses' => 'AuctionProviderController@store',
@@ -73,7 +136,7 @@ $router->group(['prefix' => 'iauctions'], function (Router $router) {
         $router->get('/{criteria}', [
             'as' => 'iauctions.api.product.get.item',
             'uses' => 'ProductController@show',
-           // 'middleware' => ['auth:api']
+            // 'middleware' => ['auth:api']
         ]);
 
         //Route update

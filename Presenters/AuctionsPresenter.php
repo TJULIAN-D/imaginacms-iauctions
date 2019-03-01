@@ -7,18 +7,15 @@ use Laracasts\Presenter\Presenter;
 use Modules\Iauctions\Entities\Status;
 
 
-class AuctionsProviderPresenter extends Presenter
+class AuctionsPresenter extends Presenter
 {
-    /**
-     * @var \Modules\Iauctions\Entities\Status
-     */
     protected $status;
-    protected $autionsProvider;
+    protected $auctions;
 
     public function __construct($entity)
     {
         parent::__construct($entity);
-        $this->autionsProvider = app('Modules\Iauctions\Repositories\AuctionProviderRepository');
+        $this->auctions = app('Modules\Iauctions\Repositories\AuctionRepository');
         $this->status = app('Modules\Iauctions\Entities\Status');
     }
 

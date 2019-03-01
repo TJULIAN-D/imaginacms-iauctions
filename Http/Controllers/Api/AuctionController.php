@@ -14,7 +14,6 @@ use Route;
 use Illuminate\Support\Facades\Auth;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Iauctions\Transformers\AuctionTransformer;
-use Modules\Iauctions\Entities\UserProduct;
 use Modules\Iauctions\Entities\Product;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;  //Base API
 
@@ -22,18 +21,15 @@ class AuctionController extends BaseApiController
 {
 
   private $auction;
-  private $userproduct;
   private $product;
 
   public function __construct(
     AuctionRepository $auction,
-    UserProduct $userproduct,
     Product $product
   ){
 
       parent::__construct();
       $this->auction = $auction;
-      $this->userproduct = $userproduct;
       $this->product = $product;
 
   }
@@ -65,6 +61,7 @@ class AuctionController extends BaseApiController
          //If request pagination add meta-page
          $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
        } catch (\Exception $e) {
+           \Log::error($e);
          $status = $this->getStatusError($e->getCode());
          $response = ["errors" => $e->getMessage()];
        }
@@ -96,6 +93,7 @@ class AuctionController extends BaseApiController
            //If request pagination add meta-page
            $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
          } catch (\Exception $e) {
+             \Log::error($e);
            $status = $this->getStatusError($e->getCode());
            $response = ["errors" => $e->getMessage()];
          }
