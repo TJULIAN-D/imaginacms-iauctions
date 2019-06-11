@@ -6,23 +6,18 @@
 
   <div class="contacto">
     <div class="text-center">
-      XXXXX
-      <a href="info@xxxxxxxxx.com">
-        info@xxxxxxxxx.com
-      </a> -
-      Skype
-      <a href="skype:xxxxxxxxx?chat">
-        xxxxxxxxx
+     Correo
+      <a href="mailto:compras@pajonales.com">
+        compras@pajonales.com
       </a>
     </div>
     <div class="text-center">
-      0000 NW 47 Street Sunrise, FL 0000 /
-      000 000 00 00 - 000 000 00 00 /
-      info@xxxxxxxxx.com /
+      Carrera 5 No. 29 - 32 Of. 292.CC La Quinta Ibagué - Tolima - Colombia<br>
+        Hacienda Pajonales Ambalema Tel. (57-8)2850010  E-Mail: <a href="mailto:info.pajonales@pajonales.com" target="_blank">info.pajonales@pajonales.com</a> Colombia
     </div>
   </div>
   
   <span class="copyright">
-            Copyrights © XXXX All Rights Reserved by {{ setting('core::site-name') }}.
+            Copyrights © {{date('Y')}} Todos Los derechos Resevados {{ setting('core::site-name') }}.
         </span>
 </footer>

@@ -14,7 +14,7 @@ class Bid extends Model
     protected $table = 'iauctions__bids';
     protected $fillable = [
         'auction_id',
-        'user_id',
+        'provider_id',
         'product_id',
         'price',
         'longer_term',
@@ -23,8 +23,7 @@ class Bid extends Model
         'freight_price',
         'total_price',
         'options',
-        'code_user',
-        'concentration'
+        'code_user'
     ];
 
     protected $fakeColumns = ['options'];
@@ -55,6 +54,9 @@ class Bid extends Model
         return json_decode($value);
     }
 
+    public function getTotalAttribute($value) {
 
+        return $this->present()->total;
+    }
 
 }

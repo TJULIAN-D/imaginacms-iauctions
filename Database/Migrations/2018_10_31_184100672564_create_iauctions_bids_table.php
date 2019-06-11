@@ -24,15 +24,12 @@ class CreateIauctionsBidsTable extends Migration
             $table->string('code_user')->nullable();
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('iauctions__products')->onDelete('restrict');
-
             $table->double('price', 30, 2)->default(0);
             $table->integer('longer_term')->default(0)->unsigned();
             $table->float('tax', 8, 2)->default(0);
             $table->integer('freight_term')->default(0)->unsigned();
             $table->double('freight_price', 30, 2)->default(0);
-
             $table->text('options')->default('')->nullable();
-            
             $table->timestamps();
         });
     }

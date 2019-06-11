@@ -22,7 +22,6 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
                 $includeDefault = array_merge($includeDefault, $params->include);
             $query->with($includeDefault);//Add Relationships to query
         }
-
         /*== FILTERS ==*/
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
@@ -41,7 +40,35 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
                 is_array($filter->ingredient) ? true : $filter->ingredient = [$filter->ingredient];
                 $query->whereIn('ingredient_id',$filter->ingredient);
             }
+            if (isset($filter->provider)){
+                $provider = $filter->provider;
+                $query->whereHas('providers', function ($query) use ($provider) {
+                    $query->where('user_id', $provider);
+                });
+            }
+            if (isset($filter->noprovider)){
+                $noprovider = is_array($filter->noprovider)? $filter->noprovider:[$filter->noprovider];
+                $query->whereDoesntHave('providers', function ($query) use ($noprovider) {
+                    $query->whereIn('user_id', $noprovider);
+                });
+            }
 
+            if (isset($filter->search)) { //si hay que filtrar por rango de precio
+                $criterion = $filter->search;
+                $param = explode(' ', $criterion);
+                $query->where(function ($query) use ($param) {
+                    foreach ($param as $index => $word) {
+                        if ($index == 0) {
+                            $query->where('title', 'like', "%" . $word . "%");
+                            $query->orWhere('sku', 'like', "%" . $word . "%");
+                        } else {
+                            $query->orWhere('title', 'like', "%" . $word . "%");
+                            $query->orWhere('sku', 'like', "%" . $word . "%");
+                        }
+                    }
+
+                });
+            }
             if (isset($filter->concentration)) {
                 $concentration=(object)$filter->concentration;
                 $query->whereBetween('concentration',[$concentration->min,$concentration->max]);
@@ -82,7 +109,7 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
         if (in_array('*', $params->include)) {//If Request all relationships
             $query->with([]);
         } else {//Especific relationships
-            $includeDefault = [];//Default relationships
+            $includeDefault = ['ingredient'];//Default relationships
             if (isset($params->include))//merge relations with default relationships
                 $includeDefault = array_merge($includeDefault, $params->include);
             $query->with($includeDefault);//Add Relationships to query

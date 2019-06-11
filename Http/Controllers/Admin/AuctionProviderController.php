@@ -98,7 +98,7 @@ class AuctionProviderController extends AdminBaseController
      */
     public function update(AuctionProvider $auctionprovider, UpdateAuctionProviderRequest $request)
     {
-        //$this->auctionprovider->update($auctionprovider, $request->all());
+        $this->auctionprovider->update($auctionprovider, $request->all());
 
         return redirect()->route('admin.iauctions.auctionprovider.index')
             ->withSuccess(trans('core::core.messages.resource updated', ['name' => trans('iauctions::auctionproviders.title.auctionproviders')]));

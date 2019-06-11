@@ -27,7 +27,7 @@
                             </select>
                         </div>
                         <div class="col-xs-6">
-                            <button id="btnUpdate" name="btnUpdate" type="button" onclick="updateStatus()" class="btn btn-default btn-success" style="color:white;">
+                            <button id="btnUpdate" name="btnUpdate" type="button" onclick="updateStatus({{$auctionprovider->id}})" class="btn btn-default btn-success" style="color:white;">
                                 {{trans('iauctions::common.modal.update')}}
                             </button>
                         </div>

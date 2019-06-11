@@ -5,20 +5,11 @@ namespace Modules\Iauctions\Repositories\Eloquent;
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
 use Modules\Iauctions\Events\AuctionProviderWasCreated;
 use Modules\Iauctions\Events\AuctionProviderWasUpdated;
+use Modules\Iauctions\Repositories\AuctionProviderProductRepository;
 use Modules\Iauctions\Repositories\AuctionProviderRepository;
 
-class EloquentAuctionProviderRepository extends EloquentBaseRepository implements AuctionProviderRepository
+class EloquentAuctionProviderProductRepository extends EloquentBaseRepository implements AuctionProviderProductRepository
 {
-
-    public function ByAuctionUser($auctionID, $userID)
-    {
-
-        return $this->model->where([
-            ['auction_id', '=', $auctionID],
-            ['provider_id', '=', $userID]
-        ])->first();
-
-    }
 
     /**
      * @inheritdoc
@@ -100,15 +91,7 @@ class EloquentAuctionProviderRepository extends EloquentBaseRepository implement
         /*== FILTERS ==*/
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
-            if (isset($filter->auctions)) {
-                //Filter by provider
-                $auctions = is_array($filter->auctions) ? $filter->auctions :[$filter->auctions];
-                $query->whereIn('auction_id', $auctions);
-            }
-            if (isset($filter->providers)) {                                                              //Filter by provider
-                $providers = is_array($filter->providers)? $filter->providers : [$filter->providers];
-                $query->whereIn('provider_id', $providers);
-            }
+
             //Filter by date
             if (isset($filter->date)) {
                 $date = $filter->date;//Short filter date

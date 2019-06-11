@@ -3,14 +3,14 @@
     "alias": "iauctions",
     "description": "Auctions Module",
     "keywords": [],
-    "version": "0.0.1",
+    "version": "1.0.0",
     "active": 1,
     "order": 1,
     "providers": [
         "Modules\\Iauctions\\Providers\\IauctionsServiceProvider",
         "Modules\\Iauctions\\Providers\\RouteServiceProvider",
         "Modules\\Iauctions\\Providers\\EventServiceProvider",
-        "Modules\\Imonitor\\Providers\\BroadcastServiceProvider"
+        "Modules\\Iauctions\\Providers\\BroadcastServiceProvider"
     ],
     "aliases": {},
     "files": [

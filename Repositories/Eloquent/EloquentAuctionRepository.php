@@ -20,7 +20,7 @@ class EloquentAuctionRepository extends EloquentBaseRepository implements Auctio
         if (in_array('*', $params->include)) {                                                   //If Request all relationships
             $query->with(['user', 'product', 'ingredient', 'auctionProviders', 'bids']);
         } else {                                                                                        //Especific relationships
-            $includeDefault = ['auctionProviders'];                                                                       //Default relationships
+            $includeDefault = [];                                                                       //Default relationships
             if (isset($params->include))                                                                //merge relations with default relationships
                 $includeDefault = array_merge($includeDefault, $params->include);
 
@@ -45,6 +45,22 @@ class EloquentAuctionRepository extends EloquentBaseRepository implements Auctio
                     if (isset($provider->status)) {
                         $query->where('status', $provider->status);
                     }
+                });
+            }
+            if (isset($filter->search)) { //si hay que filtrar por rango de precio
+                $criterion = $filter->search;
+                $param = explode(' ', $criterion);
+                $query->where(function ($query) use ($param) {
+                    foreach ($param as $index => $word) {
+                        if ($index == 0) {
+                            $query->where('title', 'like', "%" . $word . "%");
+                            $query->orWhere('sku', 'like', "%" . $word . "%");
+                        } else {
+                            $query->orWhere('title', 'like', "%" . $word . "%");
+                            $query->orWhere('sku', 'like', "%" . $word . "%");
+                        }
+                    }
+
                 });
             }
 
@@ -88,7 +104,6 @@ class EloquentAuctionRepository extends EloquentBaseRepository implements Auctio
     {
         //Initialize query
         $query = $this->model->query();
-
         /*== RELATIONSHIPS ==*/
         if (in_array('*', $params->include)) {//If Request all relationships
             $query->with(['user', 'product', 'ingredient', 'auctionProviders', 'bid']);

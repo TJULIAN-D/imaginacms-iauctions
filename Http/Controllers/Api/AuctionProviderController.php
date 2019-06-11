@@ -61,11 +61,12 @@ class AuctionProviderController extends BaseApiController
             $data['code_user'] = str_random(8);
             if ($auth->hasAccess('iauctions.auctionproviders.index')) {
                 $data['provider_id'] = $data['provider_id'] ?? $auth->id;
-                $data['status'] = $data['status'] ?? 1;
+                //$data['status'] = $data['status'] ?? 1;
             } else {
                 $data['provider_id'] = $auth->id;
-                $data['status'] = 0;
+                //$data['status'] = 0;
             }
+            $data['status'] = $data['status'] ?? 1;
             $this->validateRequestApi(new CreateAuctionProviderRequest($data));
             $dataEntity = $this->auctionProvider->create($data);
 

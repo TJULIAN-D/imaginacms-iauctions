@@ -7,13 +7,16 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Log;
 use Modules\Core\Http\Controllers\BasePublicController;
+use Modules\Iauctions\Http\Requests\CreateProductRequest;
 use Modules\Iauctions\Repositories\ProductRepository;
 use Modules\Iauctions\Transformers\ProductTransformer;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Notification\Services\Notification;
 use Modules\User\Contracts\Authentication;
+use Modules\User\Entities\Sentinel\User;
 use Modules\User\Repositories\UserRepository;
 use Route;
+use Illuminate\Support\Facades\Auth;
 
 //Base API
 
@@ -21,14 +24,14 @@ class ProductController extends BaseApiController
 {
 
     private $product;
+    private $user;
 
-    public function __construct(
-        ProductRepository $product
-    )
+    public function __construct(ProductRepository $product, User $user)
     {
 
         parent::__construct();
         $this->product = $product;
+        $this->user = $user;
 
     }
 
@@ -107,7 +110,7 @@ class ProductController extends BaseApiController
         try {
             $data = $request->input('attributes') ?? [];//Get data
             //Validate Request
-            $this->validateRequestApi(new CustomRequest($data));
+            $this->validateRequestApi(new CreateProductRequest($data));
 
             //Create item
             $dataEntity = $this->product->create($data);
@@ -140,7 +143,7 @@ class ProductController extends BaseApiController
             $data = $request->input('attributes') ?? [];//Get data
 
             //Validate Request
-            $this->validateRequestApi(new CustomRequest($data));
+            $this->validateRequestApi(new CreateProductRequest($data));
 
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
@@ -180,7 +183,7 @@ class ProductController extends BaseApiController
             $params = $this->getParamsRequest($request);
 
             //call Method delete
-            $this->product->delete($criteria);
+            $this->product->destroy($criteria);
 
             //Response
             $response = ["data" => "Item deleted"];
@@ -193,6 +196,41 @@ class ProductController extends BaseApiController
         }
 
         //Return response
+        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+    }
+
+    public function join($userId, Request $request){
+        \DB::beginTransaction();
+        try {
+            $data = $request->input('attributes') ?? [];                                                          //Get data
+           /* $user= Auth::user();
+            if ($user->hasAccess('iauctions.auctionproviders.index')?? false) {
+
+            }
+*/
+           $user=$this->user->find($userId);
+           $user->products()->sync($data['products']);;
+
+            $response = [
+                'susses' => [
+                    'code' => '201',
+                    "source" => [
+                        "pointer" => url($request->path())
+                    ],
+                    "title" => trans('iauctions::auctions.messages.create'),
+                    "detail" => [
+                        'id' => $user->id
+                    ]
+                ]
+            ];                                          //Response
+            \DB::commit();                                                                                      //Commit to Data Base
+        } catch (\Exception $e) {
+            \DB::rollback();                                                                                    //Rollback to Data Base
+            $status = $this->getStatusError($e->getCode());
+            $response = ["errors" => $e->getMessage()];
+            \Log::error($e);
+        }
+
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
     }
 }

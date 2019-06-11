@@ -20,10 +20,10 @@ class AuctionTransformer extends Resource
           'started_at'=>$this->when($this->started_at,$this->started_at),
           'quantity'=>$this->when($this->quantity,$this->quantity),
           'area'=>$this->when($this->area,$this->area),
-          'longerterm'=>$this->when($this->longerterm,$this->longerterm),
-          'financialcost_daily'=>$this->when($this->financialcost_daily,$this->financialcost_daily),
-          'financialcost_monthly'=>$this->when($this->financialcost_monthly,$this->financialcost_monthly),
-          'longerterm_freight'=>$this->when($this->longerterm_freight,$this->longerterm_freight),
+          'longerterm'=>$this->when($this->longer_term,$this->longer_term),
+          'financial_cost_daily'=>$this->when($this->financial_cost_daily,$this->financial_cost_daily),
+          'financial_cost_monthly'=>$this->when($this->financial_cost_monthly,$this->financial_cost_monthly),
+          'longer_term_freight'=>$this->when($this->longer_term_freight,$this->longer_term_freight),
           'status'=>$this->when($this->status,$this->status),
           'statusName'=>$this->when($this->status,$this->present()->status()),
           'user_id'=>$this->when($this->user_id,$this->user_id),
@@ -31,7 +31,12 @@ class AuctionTransformer extends Resource
           'options'=>$this->when($this->options,$this->options),
           'providers'=> AuctionProviderTransformer::collection($this->whenLoaded('auctionProviders')),
           'product'=> new  ProductTransformer($this->whenLoaded('product')),
+          'bids'=>BidTransformer::collection($this->whenLoaded('bids'))
       ];
+      if($request->winner){
+          $items=$this->whenLoaded('bids');
+          $data['bidWinner']= new BidTransformer($items->where('total', $items->min('total'))->first());
+      }
 
     return $data;
 

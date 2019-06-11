@@ -13,3 +13,4 @@
 {!! Form::normalInputOfType('number','quantity', trans('iauctions::auctions.table.quantity'), $errors,null,$opQuantity) !!}
 
 {!! Form::normalInputOfType('number','area', trans('iauctions::auctions.table.area'), $errors,null,$opQuantity) !!}
+{!! Form::normalInputOfType('text','delivery_place', trans('iauctions::auctions.table.area'), $errors,null,$opQuantity) !!}

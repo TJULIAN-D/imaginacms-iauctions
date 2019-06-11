@@ -8,9 +8,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use Modules\Core\Http\Controllers\BasePublicController;
+use Modules\Iauctions\Http\Requests\CreateBidRequest;
 use Modules\Iauctions\Repositories\AuctionProviderRepository;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Iauctions\Repositories\BidRepository;
+use Modules\Iauctions\Transformers\BidTransformer;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Notification\Services\Notification;
 use Modules\User\Contracts\Authentication;
@@ -45,17 +47,59 @@ class BidController extends BaseApiController
      *
      * @return mixed
      */
-    public function index(Request $request)
+    public function index($aution, Request $request)
+    {
+        try {
+
+            //Get Parameters from URL.
+            $params = $this->getParamsRequest($request);
+
+            $params->filter->aution = $aution;
+
+            //Request to Repository
+            $dataEntity = $this->bid->getItemsBy($params);
+
+            //Response
+            $response = ["data" => BidTransformer::collection($dataEntity)];
+
+            //If request pagination add meta-page
+            $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
+        } catch (\Exception $e) {
+            \Log::error($e);
+            $status = $this->getStatusError($e->getCode());
+            $response = ["errors" => $e->getMessage()];
+        }
+
+        //Return response
+        return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
+    }
+
+    /**
+     * GET ITEMS
+     *
+     * @return mixed
+     */
+    public function getOrder($auction, Request $request)
     {
         try {
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
+            $params->filter->auction = $auction;
 
             //Request to Repository
-            $dataEntity = $this->repoEntity->getItemsBy($params);
+            $dataEntity = $this->bid->getItemsBy($params);
+
+            $data = $dataEntity->groupBy(function ($item, $key) {
+                return $item['code_user'];
+            });
+
+            foreach ($data as $index => $items) {
+                $databids[] = new BidTransformer($items->where('total', $items->min('total'))->first());
+            }
+
 
             //Response
-            $response = ["data" => EntityTranformer::collection($dataEntity)];
+            $response = ["data" => $databids];
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
@@ -75,20 +119,21 @@ class BidController extends BaseApiController
      * @param $criteria
      * @return mixed
      */
-    public function show($criteria, Request $request)
+    public function show($auction,$criteria, Request $request)
     {
         try {
+
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
 
             //Request to Repository
-            $dataEntity = $this->repoEntity->getItem($criteria, $params);
+            $dataEntity = $this->bid->getItem($criteria, $params);
 
             //Break if no found item
             if (!$dataEntity) throw new Exception('Item not found', 204);
 
             //Response
-            $response = ["data" => new EntityTranformer($dataEntity)];
+            $response = ["data" => new BidTransformer($dataEntity)];
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
@@ -104,113 +149,57 @@ class BidController extends BaseApiController
 
     /**
      * CREATE A ITEM
-     *
+     * @param  $auction_id
      * @param Request $request
      * @return mixed
      */
-    public function create(Request $request)
+    public function create($auction_id, Request $request)
     {
         \DB::beginTransaction();
         try {
+
             $data = $request->input('attributes') ?? [];//Get data
             //Validate Request
 
             $user = Auth::user();
-            $auction=$this->auction->getItem($data['auction_id'], json_decode('"filter":{"status":2, "provider":{"id":1,"status":1}}'));
 
-            $this->validateRequestApi(new CustomRequest($data));
+            $data['auction_id'] = $auction_id;
+            $params = json_decode(json_encode(["filter" => ["status" => 2, "provider" => ["id" => $user->id, "status" => 1]], "include" => []]));
+            $auction = $this->auction->getItem($data['auction_id'], $params);
+            \Log::info($auction->finished_at);
+            if ($auction->finished_at <= now()) {
+                $paramsAuctionProvider = json_decode(json_encode(["filter" => ["auctions" => [$auction_id], "providers" => [$user->id]], "include" => [], "take" => 1]));
+                $auctionProvider = $this->auctionProvider->getItemsBy($paramsAuctionProvider);
 
-            //Create item
-            $dataEntity = $this->repoEntity->create($data);
+                //if (!count($auction)) {
+                //    throw new Exception('Access denied', 403);
+                //}
+                $data['provider_id'] = $user->id;
+                $data['code_user'] = $auctionProvider[0]->code_user;
 
-            //Response
-            $response = ["data" => new EntityTranformer($dataEntity)];
-            \DB::commit(); //Commit to Data Base
-        } catch (\Exception $e) {
+                $this->validateRequestApi(new CreateBidRequest($data));
+
+                //Create item
+                $dataEntity = $this->bid->create($data);
+
+                //Response
+                $response = ["data" => new BidTransformer($dataEntity)];
+                \DB::commit(); //Commit to Data Base
+            }else{
+                $status = 400;
+                $response = ["errors" => 'Not Authorize'];
+            }
+        } catch
+        (\Exception $e) {
             \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
-        //Return response
+
+//Return response
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
     }
 
-
-    /**
-     * Store a Bid
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function store($auctionid, Request $request)
-    {
-
-        try {
-            //return $request->all();
-            $user = Auth::user();
-
-            // Check if Provider was APPROVED to create a Bid
-            $provider = $this->auctionProvider->ByAuctionUser($auctionid, $user->id);
-
-            if ($provider->status == 1) {
-
-                $request->merge(['auction_id' => $auctionid]);
-                $request->merge(['user_id' => $user->id]);
-
-                // Save Bid
-                $bid = $this->bid->create($request->all());
-                // send pusher
-
-                //update longerterm if up now
-                $auction = $this->auction->find($auctionid);
-                if ($request->longerterm > $auction->longerterm) {
-                    $this->auction->update($auction, ['longerterm' => $request->longerterm]);
-                    //send pusher
-                }
-
-                // Msjs
-                $responseTitle = trans('core::core.messages.resource created', ['name' => trans('iauctions::bids.single')]);
-                $statusTitle = "success";
-
-            } else {
-
-                $responseTitle = trans('iauctions::common.validation.record not created');
-                $statusTitle = "warning";
-
-            }
-
-            $status = 200;
-            $response = [
-                $statusTitle => [
-                    'code' => '201',
-                    "source" => [
-                        "pointer" => url($request->path())
-                    ],
-                    "title" => $responseTitle,
-                    "detail" => [
-                        'auction_id' => $auctionid,
-                        'bid_id' => isset($bid->id) ? $bid->id : false
-                    ]
-                ]
-            ];
-
-        } catch (\Exception $e) {
-            \Log::error($e);
-            $status = 500;
-            $response = ['errors' => [
-                "code" => "501",
-                "source" => [
-                    "pointer" => url($request->path()),
-                ],
-                "title" => "Error Query Bid",
-                "detail" => $e->getMessage()
-            ]
-            ];
-        }
-
-        return response()->json($response, $status ?? 200);
-
-    }
 
 }

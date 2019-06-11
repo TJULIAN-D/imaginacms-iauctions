@@ -5,6 +5,7 @@ namespace Modules\Iauctions\Transformers;
 use Illuminate\Http\Resources\Json\Resource;
 use Modules\Iauctions\Transformers\AuctionTransformer;
 use Modules\Iauctions\Transformers\ProductTransformer;
+use Modules\Iprofile\Transformers\UserTransformer;
 
 class BidTransformer extends Resource
 {
@@ -16,17 +17,19 @@ class BidTransformer extends Resource
     /*Values to return*/
     $data = [
       'id' => $this->id,
-      'user_id' => $this->user_id,
       'price' => $this->price,
-      'longerterm' => $this->longerterm,
+      'longerterm' => $this->longer_term,
       'tax' => $this->tax,
       'freight_term' => $this->freight_term,
       'freight_price' => $this->freight_price,
       'total_price' => $this->total_price,
       'options' => $this->options,
       'code_user' => $this->code_user,
+      'provider_id' => $this->provider_id,
+      'provider'=>new UserTransformer($this->whenLoaded('provider')),
       'concentration' => $this->concentration,
-      'created_at' => $this->created_at
+      'created_at' => $this->created_at,
+      'total' => $this->present()->total
     ];
 
      /*Transform Relation Ships*/

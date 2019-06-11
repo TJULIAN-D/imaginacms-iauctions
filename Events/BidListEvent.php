@@ -48,6 +48,6 @@ class BidListEvent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('record-'.$this->newBid->user->id);
+        return new Channel('bid-'.$this->newBid->auction->id);
     }
 }

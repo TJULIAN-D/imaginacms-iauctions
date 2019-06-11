@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Events\LoadingBackendTranslations;
+use Modules\Iauctions\Console\SendEmailWinnerAuctions;
 use Modules\Iauctions\Events\Handlers\RegisterIauctionsSidebar;
 
 class IauctionsServiceProvider extends ServiceProvider
@@ -37,9 +38,13 @@ class IauctionsServiceProvider extends ServiceProvider
             $event->load('userproducts', array_dot(trans('iauctions::userproducts')));
             $event->load('auctionproviderproducts', array_dot(trans('iauctions::auctionproviderproducts')));
             $event->load('auctionproviders', array_dot(trans('iauctions::auctionproviders')));
+            //$event->load('producproviders', array_dot(trans('iauctions::producproviders')));
             // append translations
 
+
         });
+
+        $this->registerCommands();
     }
 
     public function boot()
@@ -111,18 +116,6 @@ class IauctionsServiceProvider extends ServiceProvider
             }
         );
         $this->app->bind(
-            'Modules\Iauctions\Repositories\UserProductRepository',
-            function () {
-                $repository = new \Modules\Iauctions\Repositories\Eloquent\EloquentUserProductRepository(new \Modules\Iauctions\Entities\UserProduct());
-
-                if (! config('app.cache')) {
-                    return $repository;
-                }
-
-                return new \Modules\Iauctions\Repositories\Cache\CacheUserProductDecorator($repository);
-            }
-        );
-        $this->app->bind(
             'Modules\Iauctions\Repositories\AuctionProviderProductRepository',
             function () {
                 $repository = new \Modules\Iauctions\Repositories\Eloquent\EloquentAuctionProviderProductRepository(new \Modules\Iauctions\Entities\AuctionProviderProduct());
@@ -146,16 +139,35 @@ class IauctionsServiceProvider extends ServiceProvider
                 return new \Modules\Iauctions\Repositories\Cache\CacheAuctionProviderDecorator($repository);
             }
         );
+        $this->app->bind(
+            'Modules\Iauctions\Repositories\ProductProviderRepository',
+            function () {
+                $repository = new \Modules\Iauctions\Repositories\Eloquent\EloquentProductProviderRepository(new \Modules\Iauctions\Entities\ProductProvider());
+
+                if (! config('app.cache')) {
+                    return $repository;
+                }
+
+                return new \Modules\Iauctions\Repositories\Cache\CacheProductProviderDecorator($repository);
+            }
+        );
 // add bindings
+    }
+    /**
+     * Register all commands for this module
+     */
+    private function registerCommands()
+    {
+        $this->registerSendEmailWinnerAuctionsCommand();
+    }
 
+    /**
+     * Register the refresh thumbnails command
+     */
+    private function registerSendEmailWinnerAuctionsCommand()
+    {
 
-
-
-
-
-
-
-
-
+        $this->app['command.iauctions.winnerauctions'] = $this->app->make(SendEmailWinnerAuctions::class);;
+        $this->commands(['command.iauctions.winnerauctions']);
     }
 }

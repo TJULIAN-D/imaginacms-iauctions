@@ -50,7 +50,14 @@ return [
         'destroy' => 'iauctions::auctionproviderproducts.destroy resource',
     ],
     
+    'iauctions.producproviders' => [
+        'index' => 'iauctions::producproviders.list resource',
+        'create' => 'iauctions::producproviders.create resource',
+        'edit' => 'iauctions::producproviders.edit resource',
+        'destroy' => 'iauctions::producproviders.destroy resource',
+    ],
 // append
+
 
 
 

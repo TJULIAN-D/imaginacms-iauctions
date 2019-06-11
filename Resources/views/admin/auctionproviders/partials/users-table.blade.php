@@ -126,12 +126,12 @@
 
     }
 
-    function updateStatus(){
+    function updateStatus(auctionproviderID){
 
         var new_status = $('#statusAuctionProvider').val();
 
         $.ajax({
-            url:"iauctions.api.auction.provider.update',[])}}",
+            url:"{{url('/')}}"+"/api/iauctions/auctionproviders/"+auctionproviderID,
             type:'POST',
             headers:{'X-CSRF-TOKEN': "{{csrf_token()}}"},
             dataType:"json",

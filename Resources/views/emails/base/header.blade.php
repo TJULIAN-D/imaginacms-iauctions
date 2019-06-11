@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="header-contend text-center py-3">
-      <img src="{{Theme::url('img/logo.png')}}" alt="">
+      <img src="{{url('themes/imagina2018/img/logo.png')}}" alt="" style="height: 115px;">
     </div>
   
 </header>

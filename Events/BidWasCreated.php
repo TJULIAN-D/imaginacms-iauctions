@@ -6,25 +6,36 @@ use Illuminate\Queue\SerializesModels;
 
 class BidWasCreated
 {
-    use SerializesModels;
-
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * @var array
      */
-    public function __construct()
+    public $data;
+    /**
+     * @var Post
+     */
+    public $bit;
+
+    public function __construct($bit, array $data)
     {
-        //
+        $this->data = $data;
+        $this->bit = $bit;
     }
 
     /**
-     * Get the channels the event should be broadcast on.
-     *
+     * Return the entity
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function getEntity()
+    {
+        return $this->bit;
+    }
+
+    /**
+     * Return the ALL data sent
      * @return array
      */
-    public function broadcastOn()
+    public function getSubmissionData()
     {
-        return [];
+        return $this->data;
     }
 }

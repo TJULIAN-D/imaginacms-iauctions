@@ -28,8 +28,11 @@ class Auction extends Model
         'longer_term_freight',
         'product_id',
         'ingredient_id',
+        'product_unit',
         'status',
         'user_id',
+        'place_delivery',
+        'date_delivery',
         'winner_id',
         'winner_value',
         'options',
@@ -85,6 +88,14 @@ class Auction extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function winner()
+    {
+        return $this->belongsTo(Bid::class);
+    }
+
+    /**
      * @param $value
      * @return mixed
      */
@@ -93,6 +104,14 @@ class Auction extends Model
         return json_decode($value);
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function SetFinancialCostDailyAttribute($value) {
+
+
+    }
     /**
      * Check if the post is in draft
      * @param Builder $query

@@ -3,7 +3,9 @@
 namespace Modules\Iauctions\Repositories\Eloquent;
 
 use Modules\Core\Repositories\Eloquent\EloquentBaseRepository;
+use Modules\Iauctions\Entities\Bid;
 use Modules\Iauctions\Events\BidListEvent;
+use Modules\Iauctions\Events\BidWasCreated;
 use Modules\Iauctions\Repositories\BidRepository;
 
 class EloquentBidRepository extends EloquentBaseRepository implements BidRepository
@@ -28,8 +30,8 @@ class EloquentBidRepository extends EloquentBaseRepository implements BidReposit
         /*== FILTERS ==*/
         if (isset($params->filter)) {
             $filter = $params->filter;//Short filter
-            if (isset($filter->asuction)) {
-                $query->where("auction_id", $filter->autioon);
+            if (isset($filter->auction)) {
+                $query->where("auction_id", $filter->auction);
             }
             //Filter by date
             if (isset($filter->date)) {
@@ -39,6 +41,11 @@ class EloquentBidRepository extends EloquentBaseRepository implements BidReposit
                     $query->whereDate($date->field, '>=', $date->from);
                 if (isset($date->to))//to a date
                     $query->whereDate($date->field, '<=', $date->to);
+            }
+            if(isset($filter->uniqueProvider)){
+                $query->groupBy( 'code_user', function ($item, $key) {
+                    return $item->min();
+                });
             }
             //Order by
             if (isset($filter->order)) {
@@ -98,6 +105,7 @@ class EloquentBidRepository extends EloquentBaseRepository implements BidReposit
     public function create($data)
     {
         $model= $this->model->create($data);
+        event(new BidWasCreated($model,$data));
         event(new BidListEvent($model,$data));
         return $model;
 

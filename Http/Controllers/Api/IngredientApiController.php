@@ -8,41 +8,24 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Log;
 use Modules\Core\Http\Controllers\BasePublicController;
-use Modules\Iauctions\Entities\Product;
-use Modules\Iauctions\Repositories\AuctionRepository;
-use Modules\Iauctions\Transformers\AuctionTransformer;
+use Modules\Iauctions\Http\Requests\CreateIngredientRequest;
+use Modules\Iauctions\Repositories\IngredientRepository;
+use Modules\Iauctions\Transformers\IngredientTransformer;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
 use Modules\Notification\Services\Notification;
 use Modules\User\Contracts\Authentication;
 use Modules\User\Repositories\UserRepository;
 use Route;
 
-//Base API
-
-class AuctionController extends BaseApiController
+class IngredientApiController extends BaseApiController
 {
 
-    private $auction;
-    private $product;
+    private $ingredient;
 
-    public function __construct(
-        AuctionRepository $auction,
-        Product $product
-    )
+    public function __construct(IngredientRepository $ingredient)
     {
-
-        parent::__construct();
-        $this->auction = $auction;
-        $this->product = $product;
-
+        $this->ingredient = $ingredient;
     }
-
-    /**
-     * Get Data from Auctions
-     *
-     * @param Request $request
-     * @return mixed
-     */
 
     /**
      * GET ITEMS
@@ -56,15 +39,14 @@ class AuctionController extends BaseApiController
             $params = $this->getParamsRequest($request);
 
             //Request to Repository
-            $dataEntity = $this->auction->getItemsBy($params);
+            $dataEntity = $this->ingredient->getItemsBy($params);
 
             //Response
-            $response = ["data" => AuctionTransformer::collection($dataEntity)];
+            $response = ["data" => IngredientTransformer::collection($dataEntity)];
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
         } catch (\Exception $e) {
-            \Log::error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -86,18 +68,17 @@ class AuctionController extends BaseApiController
             $params = $this->getParamsRequest($request);
 
             //Request to Repository
-            $dataEntity = $this->auction->getItem($criteria, $params);
+            $dataEntity = $this->ingredient->getItem($criteria, $params);
 
             //Break if no found item
             if (!$dataEntity) throw new Exception('Item not found', 204);
 
             //Response
-            $response = ["data" => new  AuctionTransformer($dataEntity)];
+            $response = ["data" => new IngredientTransformer($dataEntity)];
 
             //If request pagination add meta-page
             $params->page ? $response["meta"] = ["page" => $this->pageTransformer($dataEntity)] : false;
         } catch (\Exception $e) {
-            \Log::error($e);
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
         }
@@ -105,7 +86,6 @@ class AuctionController extends BaseApiController
         //Return response
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
     }
-
 
     /**
      * CREATE A ITEM
@@ -117,15 +97,15 @@ class AuctionController extends BaseApiController
     {
         \DB::beginTransaction();
         try {
-            $data = $request->input('attributes') ?? [];//Get data
+            $data = $request->input('attributes') ?? [];//Get data  
             //Validate Request
-            $this->validateRequestApi(new CustomRequest($data));
+            $this->validateRequestApi(new CreateIngredientRequest($data));
 
             //Create item
-            $dataEntity = $this->repoEntity->create($data);
+            $dataEntity = $this->ingredient->create($data);
 
             //Response
-            $response = ["data" => new EntityTranformer($dataEntity)];
+            $response = ["data" => new IngredientTransformer($dataEntity)];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
             \DB::rollback();//Rollback to Data Base
@@ -151,11 +131,11 @@ class AuctionController extends BaseApiController
             $data = $request->input('attributes') ?? [];//Get data
 
             //Validate Request
-            $this->validateRequestApi(new CustomRequest($data));
+            $this->validateRequestApi(new CreateIngredientRequest($data));
 
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
-            $dataEntity = $this->auction->getItem($criteria, $params);
+            $dataEntity = $this->ingredient->getItem($criteria, $params);
             //Request to Repository
             $this->ingredient->update($dataEntity, $data);
 
@@ -184,9 +164,9 @@ class AuctionController extends BaseApiController
         try {
             //Get params
             $params = $this->getParamsRequest($request);
-            $dataEntity = $this->auction->getItem($criteria, $params);
+            $dataEntity = $this->ingredient->getItem($criteria, $params);
             //call Method delete
-            $this->ingredient->delete($dataEntity);
+            $this->ingredient->destroy($dataEntity);
 
             //Response
             $response = ["data" => "Item deleted"];
@@ -200,5 +180,4 @@ class AuctionController extends BaseApiController
         //Return response
         return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
     }
-
 }

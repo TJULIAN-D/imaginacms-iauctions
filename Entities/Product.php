@@ -29,10 +29,10 @@ class Product extends Model
         return $this->belongsTo(Ingredient::class);
     }
     
-    public function users()
+    public function providers()
     {
         $driver = config('asgard.user.config.driver');
-        return $this->belongsToMany("Modules\\User\\Entities\\{$driver}\\User","iauctions__userproducts")
+        return $this->belongsToMany("Modules\\User\\Entities\\{$driver}\\User","iauctions__provider_product")
         ->withTimestamps();
     }
 
@@ -43,6 +43,7 @@ class Product extends Model
     public function auctionProvider(){
         return $this->belongsToMany(AuctionProvider::class, 'iauctions__auction_provider_product');
     }
+
 
     public function bids(){
         return $this->hasMany(Bid::class);

@@ -1,5 +1,5 @@
 {
-    "name": "vendor/iauctions",
+    "name": "imagina/iauctions-module",
     "description": "",
     "type": "asgard-module",
     "license": "MIT", 
@@ -22,8 +22,8 @@
     "prefer-stable": true,
     "authors": [
         {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
+            "name": "Imagina Dev",
+            "email": "soporte@imaignacolombia.com"
         }
     ],
     "extra": {

@@ -16,7 +16,7 @@ class AuctionsPresenter extends Presenter
     {
         parent::__construct($entity);
         $this->auctions = app('Modules\Iauctions\Repositories\AuctionRepository');
-        $this->status = app('Modules\Iauctions\Entities\Status');
+        $this->status = app('Modules\Iauctions\Entities\StatusAuction');
     }
 
     /**
@@ -36,15 +36,16 @@ class AuctionsPresenter extends Presenter
     public function statusLabelClass()
     {
         switch ($this->entity->status) {
-            case Status::PENDING:
+            case Status::DRAFT:
                 return 'bg-yellow';
                 break;
 
-            case Status::APPROVED:
+            case Status::PUBLISHED:
+            case Status::PENDING:
                 return 'bg-green';
                 break;
 
-            case Status::REJECTED:
+            case Status::FINISHED:
                 return 'bg-red';
                 break;
 

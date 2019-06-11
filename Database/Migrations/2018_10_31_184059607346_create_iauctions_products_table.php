@@ -17,7 +17,6 @@ class CreateIauctionsProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('unity')->default(0)->unsigned();
-            $table->double('concentration', 8, 2)->default(0);
             $table->integer('ingredient_id')->unsigned()->nullable();
             $table->foreign('ingredient_id')->references('id')->on('iauctions__ingredients')->onDelete('restrict');
             $table->integer('status')->default(1)->unsigned();
