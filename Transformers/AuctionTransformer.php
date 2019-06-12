@@ -25,6 +25,8 @@ class AuctionTransformer extends Resource
           'financial_cost_monthly'=>$this->when($this->financial_cost_monthly,$this->financial_cost_monthly),
           'longer_term_freight'=>$this->when($this->longer_term_freight,$this->longer_term_freight),
           'status'=>$this->when($this->status,$this->status),
+          'place_delivery'=>$this->when($this->place_delivery,$this->place_delivery),
+          'date_delivery'=>$this->when($this->date_delivery,$this->date_delivery),
           'statusName'=>$this->when($this->status,$this->present()->status()),
           'user_id'=>$this->when($this->user_id,$this->user_id),
           'winner_id'=>$this->when($this->winner_id,$this->winner_id),

@@ -182,8 +182,9 @@ class ProductController extends BaseApiController
             //Get params
             $params = $this->getParamsRequest($request);
 
+            $dataEntity = $this->product->getItem($criteria, $params);
             //call Method delete
-            $this->product->destroy($criteria);
+            $this->product->destroy($dataEntity);
 
             //Response
             $response = ["data" => "Item deleted"];

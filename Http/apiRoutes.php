@@ -74,7 +74,10 @@ $router->group(['prefix' => 'iauctions'], function (Router $router) {
             });
         });
 
-
+        $router->get('/status',[
+            'as'=>'iauctions.api.auction.status',
+            'uses' => 'StatusController@index',
+        ]);
         //Route create
         $router->post('/', [
             'as' => 'iauctions.api.auction.create',

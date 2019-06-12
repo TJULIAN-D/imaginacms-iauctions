@@ -105,14 +105,6 @@ class Auction extends Model
     }
 
     /**
-     * @param $value
-     * @return mixed
-     */
-    public function SetFinancialCostDailyAttribute($value) {
-
-
-    }
-    /**
      * Check if the post is in draft
      * @param Builder $query
      * @return Builder

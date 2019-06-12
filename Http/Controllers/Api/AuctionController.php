@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Log;
 use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Iauctions\Entities\Product;
+use Modules\Iauctions\Http\Requests\CreateAuctionRequest;
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Iauctions\Transformers\AuctionTransformer;
 use Modules\Ihelpers\Http\Controllers\Api\BaseApiController;
@@ -119,13 +120,14 @@ class AuctionController extends BaseApiController
         try {
             $data = $request->input('attributes') ?? [];//Get data
             //Validate Request
-            $this->validateRequestApi(new CustomRequest($data));
-
+            $this->validateRequestApi(new CreateAuctionRequest($data));
+            $user=Auth::user();
+            $data['user_id']=$user->id;
             //Create item
-            $dataEntity = $this->repoEntity->create($data);
+            $dataEntity = $this->auction->create($data);
 
             //Response
-            $response = ["data" => new EntityTranformer($dataEntity)];
+            $response = ["data" => new AuctionTransformer($dataEntity)];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
             \DB::rollback();//Rollback to Data Base
@@ -151,7 +153,7 @@ class AuctionController extends BaseApiController
             $data = $request->input('attributes') ?? [];//Get data
 
             //Validate Request
-            $this->validateRequestApi(new CustomRequest($data));
+            $this->validateRequestApi(new CreateAuctionRequest($data));
 
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
