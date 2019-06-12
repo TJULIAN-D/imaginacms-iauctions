@@ -122,7 +122,9 @@ class AuctionController extends BaseApiController
             //Validate Request
             $this->validateRequestApi(new CreateAuctionRequest($data));
             $user=Auth::user();
+            $ingredient_id = $this->product->find($request->product_id)->ingredient_id;
             $data['user_id']=$user->id;
+            $data['ingredient_id']=$ingredient_id;
             //Create item
             $dataEntity = $this->auction->create($data);
 
