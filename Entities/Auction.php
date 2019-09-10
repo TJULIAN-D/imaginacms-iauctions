@@ -92,7 +92,7 @@ class Auction extends Model
      */
     public function winner()
     {
-        return $this->belongsTo(Bid::class);
+        return $this->belongsTo(Bid::class,'winner_id');
     }
 
     /**

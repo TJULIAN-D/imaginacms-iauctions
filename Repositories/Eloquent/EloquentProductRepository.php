@@ -59,11 +59,9 @@ class EloquentProductRepository extends EloquentBaseRepository implements Produc
                 $query->where(function ($query) use ($param) {
                     foreach ($param as $index => $word) {
                         if ($index == 0) {
-                            $query->where('title', 'like', "%" . $word . "%");
-                            $query->orWhere('sku', 'like', "%" . $word . "%");
+                            $query->where('name', 'like',  $word . "%");
                         } else {
-                            $query->orWhere('title', 'like', "%" . $word . "%");
-                            $query->orWhere('sku', 'like', "%" . $word . "%");
+                            $query->orWhere('name', 'like', $word . "%");
                         }
                     }
 

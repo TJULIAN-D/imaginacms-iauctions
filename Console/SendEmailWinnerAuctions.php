@@ -3,7 +3,7 @@
 namespace Modules\Iauctions\Console;
 
 use Illuminate\Console\Command;
-use Modules\Iauctions\Emails\WinnerAuction;
+
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;

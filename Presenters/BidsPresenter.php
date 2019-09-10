@@ -19,6 +19,41 @@ class BidsPresenter extends Presenter
 
     }
 
+    public function cant()
+    {
+     return $this->auction()->quantity;
+    }
+
+    public function valueUnit()
+    {
+        return (int)$this->total()/(int)$this->cant();
+    }
+    public function dosisHa()
+    {
+        return intval($this->cant()) / intval($this->auction()->area);
+    }
+    public function costHa()
+    {
+        return (int)$this->total() * (int)$this->dosisHa();
+    }
+    public function has()
+    {
+        return (int)$this->auction()->area;
+    }
+    public function tax()
+    {
+        return intval($this->entity->tax);
+    }
+    public function costo()
+    {
+        $value = intval($this->entity->price) + $this->financialCost();
+
+        return  $value * (int)$this->cant();
+    }
+    public function taxValue()
+    {
+        return (int)$this->total() * (int)$this->tax();
+    }
     public function financialCost()
     {
         $cost_financial_longer = 0;

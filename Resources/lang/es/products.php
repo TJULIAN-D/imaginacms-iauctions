@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'single' => 'Producto',
-    'plural' => 'Productos',
+    'single' => 'Product',
+    'plural' => 'Products',
     'list resource' => 'List products',
     'create resource' => 'Create products',
     'edit resource' => 'Edit products',
@@ -11,13 +11,18 @@ return [
         'products' => 'Product',
         'create product' => 'Create a product',
         'edit product' => 'Edit a product',
+        'search' => 'Search a product'
     ],
     'button' => [
         'create product' => 'Create a product',
     ],
     'table' => [
-        'name' => 'Nombre',
-        'description' => 'Descripcion'
+        'name' => 'Name',
+        'description' => 'Description',
+        'slug' => 'Slug',
+        'unity' => 'Unity',
+        'concentration' => 'Concentration',
+        'dosis_ha' => 'Dosis HA',
     ],
     'form' => [
     ],

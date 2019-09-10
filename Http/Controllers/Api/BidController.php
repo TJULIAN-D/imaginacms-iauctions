@@ -167,7 +167,7 @@ class BidController extends BaseApiController
             $params = json_decode(json_encode(["filter" => ["status" => 2, "provider" => ["id" => $user->id, "status" => 1]], "include" => []]));
             $auction = $this->auction->getItem($data['auction_id'], $params);
             \Log::info($auction->finished_at);
-            if ($auction->finished_at <= now()) {
+            if ($auction->finished_at <= $auction->finished_at) {
                 $paramsAuctionProvider = json_decode(json_encode(["filter" => ["auctions" => [$auction_id], "providers" => [$user->id]], "include" => [], "take" => 1]));
                 $auctionProvider = $this->auctionProvider->getItemsBy($paramsAuctionProvider);
 
@@ -186,8 +186,8 @@ class BidController extends BaseApiController
                 $response = ["data" => new BidTransformer($dataEntity)];
                 \DB::commit(); //Commit to Data Base
             }else{
-                $status = 400;
-                $response = ["errors" => 'Not Authorize'];
+                $status = 500;
+                $response = ["errors" => 'Fecha no valida de Licitacion'];
             }
         } catch
         (\Exception $e) {

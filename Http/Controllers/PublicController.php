@@ -33,7 +33,7 @@ class PublicController extends BasePublicController
   */
   public function index()
   {
-     $auction=$this->auction->find(2);
+     $auction=$this->auction->find(3);
      $user=$auction->winner->provider;
 
       return view('iauctions::emails.auctions.winner', compact('auction','user'));

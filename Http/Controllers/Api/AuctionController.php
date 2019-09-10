@@ -122,7 +122,7 @@ class AuctionController extends BaseApiController
             //Validate Request
             $this->validateRequestApi(new CreateAuctionRequest($data));
             $user=Auth::user();
-            $ingredient_id = $this->product->find($request->product_id)->ingredient_id;
+            $ingredient_id = $this->product->find($data['product_id'])->ingredient_id;
             $data['user_id']=$user->id;
             $data['ingredient_id']=$ingredient_id;
             //Create item
@@ -132,6 +132,7 @@ class AuctionController extends BaseApiController
             $response = ["data" => new AuctionTransformer($dataEntity)];
             \DB::commit(); //Commit to Data Base
         } catch (\Exception $e) {
+            \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
@@ -156,17 +157,19 @@ class AuctionController extends BaseApiController
 
             //Validate Request
             $this->validateRequestApi(new CreateAuctionRequest($data));
-
+            $ingredient_id = $this->product->find($data['product_id'])->ingredient_id;
+            $data['ingredient_id']=$ingredient_id;
             //Get Parameters from URL.
             $params = $this->getParamsRequest($request);
             $dataEntity = $this->auction->getItem($criteria, $params);
             //Request to Repository
-            $this->ingredient->update($dataEntity, $data);
+            $this->auction->update($dataEntity, $data);
 
             //Response
             $response = ["data" => 'Item Updated'];
             \DB::commit();//Commit to DataBase
         } catch (\Exception $e) {
+            \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];
@@ -178,7 +181,6 @@ class AuctionController extends BaseApiController
 
     /**
      * DELETE A ITEM
-     *
      * @param $criteria
      * @return mixed
      */
@@ -190,12 +192,13 @@ class AuctionController extends BaseApiController
             $params = $this->getParamsRequest($request);
             $dataEntity = $this->auction->getItem($criteria, $params);
             //call Method delete
-            $this->ingredient->delete($dataEntity);
+            $this->auction->delete($dataEntity);
 
             //Response
             $response = ["data" => "Item deleted"];
             \DB::commit();//Commit to Data Base
         } catch (\Exception $e) {
+            \Log::error($e);
             \DB::rollback();//Rollback to Data Base
             $status = $this->getStatusError($e->getCode());
             $response = ["errors" => $e->getMessage()];

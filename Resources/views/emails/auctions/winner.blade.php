@@ -14,7 +14,7 @@
         @php
             $date=strftime("%d de %B de %Y",strtotime("now"));
             $fields=$user->fields()->get();
-            $business=json_decode($fields->where('name','juridic')->first())->value->businessName;
+            $business=json_decode($fields->where('name','juridic')->first())->value->businessName??null;
             $cityBusiness=json_decode($fields->where('name','basic')->first())->value->city;
             $product=$auction->winner->product;
             $bid=$auction->winner;
@@ -41,7 +41,7 @@
 
             <div class="px-3" style="margin-bottom: 5px">
                 <p>
-                    apreciando(a) Ing.
+                    Apreciando(a) Ing.
                 </p>
                 <p>
                     Atendiendo lo establecido en la cotización de fecha <strong>{{$date}}</strong> presentada por
