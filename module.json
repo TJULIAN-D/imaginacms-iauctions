@@ -1,0 +1,16 @@
+{
+    "name": "Iauctions",
+    "alias": "iauctions",
+    "version": "1.0.0",
+	"description": "",
+    "keywords": [],
+    "priority": 1,
+    "providers": [
+        "Modules\\Iauctions\\Providers\\IauctionsServiceProvider",
+        "Modules\\Iauctions\\Providers\\EventServiceProvider",
+        "Modules\\Iauctions\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
