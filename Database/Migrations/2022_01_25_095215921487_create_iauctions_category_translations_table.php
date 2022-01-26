@@ -16,6 +16,7 @@ class CreateIauctionsCategoryTranslationsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             // Your translatable fields
+            $table->string('title');
 
             $table->integer('category_id')->unsigned();
             $table->string('locale')->index();

@@ -16,6 +16,8 @@ class CreateIauctionsCategoriesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             // Your fields...
+            $table->string('system_name', 50);
+            $table->text('options')->nullable();
 
             // Audit fields
             $table->timestamps();

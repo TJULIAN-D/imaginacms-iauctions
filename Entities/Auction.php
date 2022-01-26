@@ -4,6 +4,7 @@ namespace Modules\Iauctions\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Modules\Core\Icrud\Entities\CrudModel;
+use Modules\Iprofile\Entities\Department;
 
 class Auction extends CrudModel
 {
@@ -15,6 +16,59 @@ class Auction extends CrudModel
         'create' => 'Modules\Iauctions\Http\Requests\CreateAuctionRequest',
         'update' => 'Modules\Iauctions\Http\Requests\UpdateAuctionRequest',
       ];
-    public $translatedAttributes = [];
-    protected $fillable = [];
+    public $translatedAttributes = [
+        'title',
+        'description'
+    ];
+    protected $fillable = [
+        'status',
+        'type',
+        'user_id',
+        'department_id',
+        'start_at',
+        'end_at',
+        'category_id',
+        'options'
+    ];
+
+    protected $casts = ['options' => 'array'];
+
+
+    //============== RELATIONS ==============//
+
+    // Responsable User
+    public function user()
+    {
+        $driver = config('asgard.user.config.driver');
+        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
+
+    //============== MUTATORS / ACCESORS ==============//
+
+    public function setOptionsAttribute($value)
+    {
+        $this->attributes['options'] = json_encode($value);
+    }
+
+    public function getOptionsAttribute($value)
+    {
+        return json_decode($value);
+    }
+
+
 }
