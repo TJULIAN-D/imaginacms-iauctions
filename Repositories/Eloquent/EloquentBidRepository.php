@@ -41,6 +41,23 @@ class EloquentBidRepository extends EloquentCrudRepository implements BidReposit
     return $query;
   }
 
+  /*
+  * Order Query Default 
+  */
+  public function orderQuery($query, $order)
+  {
+    $orderField = $order->field ?? 'points';//Default field
+    $orderWay = $order->way ?? 'asc';//Default way
+
+    //Set order to query
+    if (in_array($orderField, ($this->model->translatedAttributes ?? []))) {
+      $query->orderByTranslation($orderField, $orderWay);
+    } else $query->orderBy($orderField, $orderWay);
+
+    //Return query with filters
+    return $query;
+  }
+
   /**
    * Method to sync Model Relations
    *
