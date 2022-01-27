@@ -1,0 +1,45 @@
+<?php
+
+namespace Modules\Iauctions\Traits;
+
+
+//Events
+use Modules\Iauctions\Events\AuctionWasCreated;
+
+/**
+* Trait 
+*/
+trait Notificable
+{
+
+
+	/**
+   	* Boot trait method
+   	*/
+	public static function bootNotificable()
+	{
+
+		
+		//Listen event after create model
+		static::created(function ($model) {
+
+			\Log::info('Iauctions: Traits|Notificable|ModelCreated');
+    		event(new AuctionWasCreated($model));
+
+		});
+
+		static::updated(function ($model) {
+
+			\Log::info('Iauctions: Traits|Notificable|ModelUpdated');
+
+    		// OJO AQUI VALIDAR EL EVENTO DEPNDIENDO DEL EDO
+    		event(new AuctionWasCreated($model));
+
+		});
+
+
+		
+	}
+
+	
+}

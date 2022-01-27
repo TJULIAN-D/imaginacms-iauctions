@@ -10,6 +10,9 @@ use Modules\Iprofile\Entities\Department;
 use Modules\Iauctions\Entities\Status;
 use Modules\Iauctions\Entities\AuctionTypes;
 
+//Traits
+use Modules\Iauctions\Traits\Notificable;
+
 class Auction extends CrudModel
 {
     use Translatable;
