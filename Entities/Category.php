@@ -20,6 +20,7 @@ class Category extends CrudModel
     ];
     protected $fillable = [
         'system_name',
+        'bid_service',
         'options',
         'auction_form_id',
         'bid_form_id'

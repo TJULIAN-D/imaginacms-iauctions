@@ -4,6 +4,8 @@ namespace Modules\Iauctions\Http\Requests;
 
 use Modules\Core\Internationalisation\BaseFormRequest;
 
+use Modules\Iauctions\Rules\ValidatePath;
+
 class CreateCategoryRequest extends BaseFormRequest
 {
     public function rules()
@@ -11,6 +13,7 @@ class CreateCategoryRequest extends BaseFormRequest
         return [
             'title' => 'required',
             'system_name' => 'required',
+            'bid_service' => new ValidatePath 
         ];
     }
 

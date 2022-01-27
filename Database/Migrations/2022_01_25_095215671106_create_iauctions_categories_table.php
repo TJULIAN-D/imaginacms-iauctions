@@ -17,6 +17,7 @@ class CreateIauctionsCategoriesTable extends Migration
             $table->increments('id');
             // Your fields...
             $table->string('system_name', 50);
+            $table->text('bid_service')->nullable();
             $table->text('options')->nullable();
 
             $table->integer('auction_form_id')->unsigned()->nullable();
