@@ -6,6 +6,10 @@ use Astrotomic\Translatable\Translatable;
 use Modules\Core\Icrud\Entities\CrudModel;
 use Modules\Iprofile\Entities\Department;
 
+//Static Classes
+use Modules\Iauctions\Entities\Status;
+use Modules\Iauctions\Entities\AuctionTypes;
+
 class Auction extends CrudModel
 {
     use Translatable;
@@ -58,6 +62,7 @@ class Auction extends CrudModel
         return $this->hasMany(Bid::class);
     }
 
+   
     //============== MUTATORS / ACCESORS ==============//
 
     public function setOptionsAttribute($value)
@@ -68,6 +73,18 @@ class Auction extends CrudModel
     public function getOptionsAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getStatusNameAttribute()
+    {
+        $status = new Status();
+        return $status->get($this->status);
+    }
+
+    public function getTypeNameAttribute()
+    {
+        $type = new AuctionTypes();
+        return $type->get($this->type);
     }
 
 

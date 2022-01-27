@@ -4,11 +4,10 @@ namespace Modules\Iauctions\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Modules\Core\Icrud\Entities\CrudModel;
-use Modules\Iforms\Support\Traits\Formeable;
 
 class Category extends CrudModel
 {
-    use Translatable, Formeable;
+    use Translatable;
 
     protected $table = 'iauctions__categories';
     public $transformer = 'Modules\Iauctions\Transformers\CategoryTransformer';
@@ -22,6 +21,8 @@ class Category extends CrudModel
     protected $fillable = [
         'system_name',
         'options',
+        'auction_form_id',
+        'bid_form_id'
     ];
 
     protected $casts = ['options' => 'array'];

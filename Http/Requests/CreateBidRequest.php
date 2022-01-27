@@ -8,7 +8,11 @@ class CreateBidRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'auction_id' => 'required',
+            'description' => 'required',
+            'amount' => 'required',
+        ];
     }
 
     public function translationRules()
@@ -28,7 +32,11 @@ class CreateBidRequest extends BaseFormRequest
 
     public function translationMessages()
     {
-        return [];
+        return [
+            'auction_id.required' => trans('iauctions::common.messages.field required'),
+            'description.required' => trans('iauctions::common.messages.field required'),
+            'amount.required' => trans('iauctions::common.messages.field required')
+        ];
     }
 
     public function getValidator(){

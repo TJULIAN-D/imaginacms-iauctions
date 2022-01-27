@@ -5,6 +5,8 @@ namespace Modules\Iauctions\Entities;
 use Modules\Core\Icrud\Entities\CrudModel;
 use Modules\Ifillable\Traits\isFillable;
 
+//Static Classes
+use Modules\Iauctions\Entities\StatusBid;
 
 class Bid extends CrudModel
 {
@@ -47,6 +49,12 @@ class Bid extends CrudModel
     public function getOptionsAttribute($value)
     {
         return json_decode($value);
+    }
+
+    public function getStatusNameAttribute()
+    {
+        $status = new StatusBid();
+        return $status->get($this->status);
     }
 
     

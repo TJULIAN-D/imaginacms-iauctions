@@ -13,6 +13,9 @@ class AuctionTransformer extends CrudResource
   */
   public function modelAttributes($request)
   {
-    return [];
+    return [
+      'statusName' => $this->statusName,
+      'typeName' => $this->typeName
+    ];
   }
 }

@@ -8,7 +8,13 @@ class CreateAuctionRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'title' => 'required',
+            'description' => 'required',
+            'user_id' => 'required',
+            'department_id' => 'required',
+            'category_id' => 'required',
+        ];
     }
 
     public function translationRules()
@@ -28,7 +34,13 @@ class CreateAuctionRequest extends BaseFormRequest
 
     public function translationMessages()
     {
-        return [];
+        return [
+            'title.required' => trans('iauctions::common.messages.field required'),
+            'description.required' => trans('iauctions::common.messages.field required'),
+            'user_id.required' => trans('iauctions::common.messages.field required'),
+            'department_id.required' => trans('iauctions::common.messages.field required'),
+            'category_id.required' => trans('iauctions::common.messages.field required'),
+        ];
     }
 
     public function getValidator(){

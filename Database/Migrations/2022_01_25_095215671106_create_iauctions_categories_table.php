@@ -19,6 +19,13 @@ class CreateIauctionsCategoriesTable extends Migration
             $table->string('system_name', 50);
             $table->text('options')->nullable();
 
+            $table->integer('auction_form_id')->unsigned()->nullable();
+            $table->foreign('auction_form_id')->references('id')->on('iforms__forms')->onDelete('restrict');
+
+            $table->integer('bid_form_id')->unsigned()->nullable();
+            $table->foreign('bid_form_id')->references('id')->on('iforms__forms')->onDelete('restrict');
+
+            
             // Audit fields
             $table->timestamps();
             $table->auditStamps();

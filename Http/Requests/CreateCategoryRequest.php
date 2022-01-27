@@ -8,7 +8,10 @@ class CreateCategoryRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'title' => 'required',
+            'system_name' => 'required',
+        ];
     }
 
     public function translationRules()
@@ -28,7 +31,10 @@ class CreateCategoryRequest extends BaseFormRequest
 
     public function translationMessages()
     {
-        return [];
+        return [
+            'title.required' => trans('iauctions::common.messages.field required'),
+            'system_name.required' => trans('iauctions::common.messages.field required'),
+        ];
     }
 
     public function getValidator(){
