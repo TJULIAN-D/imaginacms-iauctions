@@ -9,7 +9,9 @@ return [
         'auctions' => 'Auction',
         'create auction' => 'Create a auction',
         'edit auction' => 'Edit a auction',
-        'AuctionWasCreated' => 'Se ha creado una licitación',
+        'AuctionWasCreated' => 'Se ha creado la Licitación #:auctionId',
+        'AuctionWasActived' => 'Ha iniciado Licitación #:auctionId',
+        'AuctionWasFinished' => 'Ha finalizado la Licitación #:auctionId',
     ],
     'button' => [
         'create auction' => 'Create a auction',
@@ -21,6 +23,8 @@ return [
     'messages' => [
         'AuctionWasCreated' => 'Licitación #:auctionId - :title - Inicia:
         :startAt | Culmina: :endAt',
+        'AuctionWasActived' => 'Licitación #:auctionId - :title | Culmina: :endAt',
+        'AuctionWasFinished' => 'Licitación #:auctionId - :title - Finalizada',
     ],
     'validation' => [
     ],

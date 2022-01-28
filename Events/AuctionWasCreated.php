@@ -24,23 +24,17 @@ class AuctionWasCreated
     public function notification()
     {
 
-        // Base Users
-        $responsable = $this->auction->user;
-        $providers = $this->auction->department->users;
+        
+        // Set emailTo
+        $emailTo = auctionsGetEmailTo($this->auction);
 
-        //Set emailTo
-        $emails[] = $responsable->email;
-        $providersEmails = $providers->pluck('email')->toArray();
-        $emailTo = array_merge($emails,$providersEmails);
-       
-        //Set BroadcastTo
-        $broadcastTo = $providers->pluck('id')->toArray();
-        array_push($broadcastTo, $responsable->id);
-        //\Log::info("broadcastTo ".json_encode($broadcastTo));
+        // Set BroadcastTo
+        $broadcastTo = auctionsGetBroadcastTo($this->auction);
 
         //FormatDates to email
         $formatStartAt = date(config('asgard.iauctions.config.hourFormat'),strtotime($this->auction->start_at));
         $formatEndAt = date(config('asgard.iauctions.config.hourFormat'),strtotime($this->auction->end_at));
+        
         
         // Send Notification
         $this->notificationService->to([
@@ -48,7 +42,7 @@ class AuctionWasCreated
             "broadcast" => $broadcastTo,
             "push" => $broadcastTo,
         ])->push([
-            "title" => trans("iauctions::auctions.title.AuctionWasCreated"),
+            "title" => trans("iauctions::auctions.title.AuctionWasCreated",["auctionId" => $this->auction->id]),
             "message" => trans("iauctions::auctions.messages.AuctionWasCreated",
             [
                 "auctionId" => $this->auction->id,

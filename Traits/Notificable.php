@@ -5,6 +5,8 @@ namespace Modules\Iauctions\Traits;
 
 //Events
 use Modules\Iauctions\Events\AuctionWasCreated;
+use Modules\Iauctions\Events\AuctionWasActived;
+use Modules\Iauctions\Events\AuctionWasFinished;
 
 /**
 * Trait 
@@ -27,16 +29,27 @@ trait Notificable
 
 		//Listen event after updated model
 		static::updatedWithBindings(function ($model) {
-
-			\Log::info('Iauctions: Traits|Notificable|ModelUpdated');
-
-    		// OJO AQUI VALIDAR EL EVENTO DEPNDIENDO DEL EDO
-    		event(new AuctionWasCreated($model));
-
+			$model->checkStatus($model);
 		});
 
 
 		
+	}
+
+	/*
+	* Check status model
+	*/
+	public function checkStatus($model){
+
+		//ACTIVE
+		if($model->status==1)
+			event(new AuctionWasActived($model));
+
+		//FINISHED
+		if($model->status==2)
+			event(new AuctionWasFinished($model));
+    			
+
 	}
 
 	
