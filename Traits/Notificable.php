@@ -7,6 +7,7 @@ namespace Modules\Iauctions\Traits;
 use Modules\Iauctions\Events\AuctionWasCreated;
 use Modules\Iauctions\Events\AuctionWasActived;
 use Modules\Iauctions\Events\AuctionWasFinished;
+use Modules\Iauctions\Events\BidWasCreated;
 
 /**
 * Trait 
@@ -24,14 +25,35 @@ trait Notificable
 		
 		//Listen event after create model
 		static::createdWithBindings(function ($model) {
-    		event(new AuctionWasCreated($model));
-    		// Created and Active the one
-    		$model->checkStatus($model);
+    		
+    		switch (get_class($model)) {
+
+    			//Auction
+    			case 'Modules\Iauctions\Entities\Auction':
+    				event(new AuctionWasCreated($model));
+    				// Created and if is status active the one
+    				$model->checkStatusAuction($model);
+    				break;
+    			
+    			//Bid
+    			case 'Modules\Iauctions\Entities\Bid':
+    				event(new BidWasCreated($model));
+    				break;
+
+    		}
+    		
 		});
 
 		//Listen event after updated model
 		static::updatedWithBindings(function ($model) {
-			$model->checkStatus($model);
+			switch (get_class($model)) {
+
+    			//Auction
+    			case 'Modules\Iauctions\Entities\Auction':
+    				$model->checkStatusAuction($model);
+    				break;
+    		
+    		}
 		});
 
 
@@ -41,7 +63,7 @@ trait Notificable
 	/*
 	* Check status model
 	*/
-	public function checkStatus($model){
+	public function checkStatusAuction($model){
 
 		//ACTIVE
 		if($model->status==1)

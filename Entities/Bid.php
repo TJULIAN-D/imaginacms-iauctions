@@ -8,10 +8,13 @@ use Modules\Ifillable\Traits\isFillable;
 //Static Classes
 use Modules\Iauctions\Entities\StatusBid;
 
+//Traits
+use Modules\Iauctions\Traits\Notificable;
+
 class Bid extends CrudModel
 {
    
-    use isFillable;
+    use isFillable, Notificable;
 
     protected $table = 'iauctions__bids';
     public $transformer = 'Modules\Iauctions\Transformers\BidTransformer';
