@@ -25,6 +25,8 @@ trait Notificable
 		//Listen event after create model
 		static::createdWithBindings(function ($model) {
     		event(new AuctionWasCreated($model));
+    		// Created and Active the one
+    		$model->checkStatus($model);
 		});
 
 		//Listen event after updated model
