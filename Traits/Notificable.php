@@ -21,14 +21,12 @@ trait Notificable
 
 		
 		//Listen event after create model
-		static::created(function ($model) {
-
-			\Log::info('Iauctions: Traits|Notificable|ModelCreated');
+		static::createdWithBindings(function ($model) {
     		event(new AuctionWasCreated($model));
-
 		});
 
-		static::updated(function ($model) {
+		//Listen event after updated model
+		static::updatedWithBindings(function ($model) {
 
 			\Log::info('Iauctions: Traits|Notificable|ModelUpdated');
 

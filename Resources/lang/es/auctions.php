@@ -9,6 +9,7 @@ return [
         'auctions' => 'Auction',
         'create auction' => 'Create a auction',
         'edit auction' => 'Edit a auction',
+        'AuctionWasCreated' => 'Se ha creado una licitación',
     ],
     'button' => [
         'create auction' => 'Create a auction',
@@ -18,6 +19,8 @@ return [
     'form' => [
     ],
     'messages' => [
+        'AuctionWasCreated' => 'Licitación #:auctionId - :title - Inicia:
+        :startAt | Culmina: :endAt',
     ],
     'validation' => [
     ],

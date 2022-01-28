@@ -15,7 +15,7 @@ use Modules\Iauctions\Traits\Notificable;
 
 class Auction extends CrudModel
 {
-    use Translatable;
+    use Translatable, Notificable;
 
     protected $table = 'iauctions__auctions';
     public $transformer = 'Modules\Iauctions\Transformers\AuctionTransformer';
