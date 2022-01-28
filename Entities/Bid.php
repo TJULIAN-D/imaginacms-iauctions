@@ -22,6 +22,7 @@ class Bid extends CrudModel
    
     protected $fillable = [
         'auction_id',
+        'provider_id',
         'description',
         'amount',
         'points',
@@ -37,6 +38,12 @@ class Bid extends CrudModel
     public function auction()
     {
         return $this->belongsTo(Auction::class);
+    }
+
+    public function provider()
+    {
+        $driver = config('asgard.user.config.driver');
+        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
     }
 
     //============== MUTATORS / ACCESORS ==============//

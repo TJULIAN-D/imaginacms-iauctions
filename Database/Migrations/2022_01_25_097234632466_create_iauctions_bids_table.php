@@ -19,6 +19,9 @@ class CreateIauctionsBidsTable extends Migration
             $table->integer('auction_id')->unsigned();
             $table->foreign('auction_id')->references('id')->on('iauctions__auctions')->onDelete('restrict');
 
+            $table->integer('provider_id')->unsigned();
+            $table->foreign('provider_id')->references('id')->on(config('auth.table', 'users'))->onDelete('restrict');
+
             $table->text('description');
             $table->double('amount', 30, 2)->default(0);
             $table->float('points', 8, 2)->default(0);
