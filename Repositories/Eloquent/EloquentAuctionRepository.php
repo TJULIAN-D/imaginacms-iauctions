@@ -36,6 +36,15 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
      * if (isset($filter->status)) $query->where('status', $filter->status);
      *
      */
+    
+    // If doesn't have Permission to index-all
+    if(\Auth::user() && !\Auth::user()->hasAccess('iauctions.auctions.index-all')){
+
+      $query->whereHas("bids", function ($query) {
+        $query->where("iauctions__bids.provider_id", \Auth::id());
+      });
+
+    }
 
     //Response
     return $query;

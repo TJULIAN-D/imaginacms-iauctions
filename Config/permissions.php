@@ -4,6 +4,7 @@ return [
     'iauctions.auctions' => [
         'manage' => 'iauctions::auctions.manage resource',
         'index' => 'iauctions::auctions.list resource',
+        'index-all' => 'iauctions::auctions.list resource',
         'create' => 'iauctions::auctions.create resource',
         'edit' => 'iauctions::auctions.edit resource',
         'destroy' => 'iauctions::auctions.destroy resource',

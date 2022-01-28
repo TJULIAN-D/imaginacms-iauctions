@@ -16,7 +16,7 @@ use Modules\Icomments\Traits\Commentable;
 
 class Auction extends CrudModel
 {
-    use Translatable, Commentable, Notificable,;
+    use Translatable, Commentable, Notificable;
 
     protected $table = 'iauctions__auctions';
     public $transformer = 'Modules\Iauctions\Transformers\AuctionTransformer';
