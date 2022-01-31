@@ -27,6 +27,9 @@ return [
         'AuctionWasFinished' => 'Licitación #:auctionId - :title - Finalizada',
     ],
     'validation' => [
+        'not found' => 'Licitacion no existe',
+        'not available' => 'Licitacion no disponible',
+        'other bid' => 'Ya tienes una puja para esta Licitacion',
     ],
     'status' => [
         'inactive' => 'Inactivo',

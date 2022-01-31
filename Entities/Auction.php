@@ -98,5 +98,20 @@ class Auction extends CrudModel
         return $type->get($this->type);
     }
 
+    public function getIsAvailableAttribute()
+    {
+
+        $isAvailable = false;
+        $today = date("Y-m-d H:i:s");
+        //\Log::info("Today: ".$today);
+
+        //ACTIVE = 1 and Between Dates
+        if($this->status==1 && $this->start_at<=$today && $this->end_at>=$today)
+            $isAvailable = true;
+
+        return $isAvailable;
+
+    }
+
 
 }

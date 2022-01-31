@@ -25,13 +25,16 @@ class BidService
     public function create($data){
 
         
-        // Validate exist Auction and is active
+        // Validate exist Auction
         $auction = $this->auction->findByAttributes([
-            'id'=> $data['auction_id'],
-            'status' => 1 //ACTIVE = 1;
+            'id'=> $data['auction_id']
         ]);
         if(is_null($auction))
-            throw new \Exception('Auction not Found or status Inactive', 500);
+            throw new \Exception(trans('iauctions::auctions.validation.not found'), 500);
+
+        // Validate is Available
+        if(!$auction->IsAvailable)
+            throw new \Exception(trans('iauctions::auctions.validation.not available'), 500);
 
         //Validate if user doen't have Bids Actives
         $bids = $this->bid->findByAttributes([
@@ -39,8 +42,7 @@ class BidService
             'status' => 1 //RECEIVED = 1;
         ]);
         if(!is_null($bids))
-            throw new \Exception('User has other bid received for this auction', 500);
-
+            throw new \Exception(trans('iauctions::auctions.validation.other bid'), 500);
 
         // Search if Auction category has a Bid Service to Calculate Points(Score)
         if(is_null($auction->category->bid_service)){
