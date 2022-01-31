@@ -36,6 +36,7 @@ class Auction extends CrudModel
         'start_at',
         'end_at',
         'category_id',
+        'winner_id',
         'options'
     ];
 
@@ -64,6 +65,12 @@ class Auction extends CrudModel
     public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function winner()
+    {
+        $driver = config('asgard.user.config.driver');
+        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
     }
 
    

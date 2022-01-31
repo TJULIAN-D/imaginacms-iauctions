@@ -30,6 +30,7 @@ class Bid extends CrudModel
         'amount',
         'points',
         'status',
+        'winner',
         'options'
     ];
 

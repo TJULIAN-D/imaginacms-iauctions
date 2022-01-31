@@ -31,10 +31,13 @@ class CreateIauctionsAuctionsTable extends Migration
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
 
-            $table->text('options')->nullable();
-
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('iauctions__categories')->onDelete('restrict');
+
+            $table->integer('winner_id')->unsigned()->nullable();
+            $table->foreign('winner_id')->references('id')->on(config('auth.table', 'users'))->onDelete('restrict');
+
+            $table->text('options')->nullable();
 
 
             // Audit fields

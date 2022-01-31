@@ -27,6 +27,8 @@ class CreateIauctionsBidsTable extends Migration
             $table->float('points', 8, 2)->default(0);
             $table->integer('status')->default(1)->unsigned();
 
+            $table->boolean('winner')->default(false);
+
             $table->text('options')->nullable();
             // Audit fields
             $table->timestamps();
