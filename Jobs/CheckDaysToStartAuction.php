@@ -49,8 +49,8 @@ class CheckDaysToStartAuction implements ShouldQueue
             foreach ($result as $item) {
 
                 $auction = Auction::find($item->id);
-                //event(new AuctionRemainingDay($auction));
-
+                event(new AuctionRemainingDay($auction));
+                
                 \Log::info("Iauctions: Jobs|CheckDaysToStartAuction|Auction: ID $auction->id");
                 
             }

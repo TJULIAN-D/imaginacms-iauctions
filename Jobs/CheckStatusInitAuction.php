@@ -50,7 +50,7 @@ class checkStatusInitAuction implements ShouldQueue
                 $auction = Auction::find($item->id);
                 $auction->status = 1; // Active
                 $auction->save();
-                //event(new AuctionWasActived($auction));
+                event(new AuctionWasActived($auction));
 
                 \Log::info("Iauctions: Jobs|CheckStatusInitAuction|Updated Status AuctionID: $auction->id");
             }

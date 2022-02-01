@@ -14,15 +14,17 @@ class ScheduleServiceProvider extends ServiceProvider
 
             $schedule = $this->app->make(Schedule::class);
 
-
+            /*
             $schedule->call(function () {
                 \Modules\Iauctions\Jobs\CheckDaysToStartAuction::dispatch();
             })->daily();
+            */
             
-            
+            /*
             $schedule->call(function () {
                 \Modules\Iauctions\Jobs\CheckStatusInitAuction::dispatch();
             })->everyMinute();
+            */
            
 
            
