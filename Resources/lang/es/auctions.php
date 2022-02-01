@@ -12,6 +12,7 @@ return [
         'AuctionWasCreated' => 'Se ha creado la Licitación #:auctionId',
         'AuctionWasActived' => 'Ha iniciado Licitación #:auctionId',
         'AuctionWasFinished' => 'Ha finalizado la Licitación #:auctionId',
+        'AuctionRemainingDay' => 'Falta 1 dia para que inicie la Licitación #:auctionId',
     ],
     'button' => [
         'create auction' => 'Create a auction',
@@ -25,6 +26,8 @@ return [
         :startAt | Culmina: :endAt',
         'AuctionWasActived' => 'Licitación #:auctionId - :title | Culmina: :endAt',
         'AuctionWasFinished' => 'Licitación #:auctionId - :title - Finalizada',
+        'AuctionRemainingDay' => 'Licitación #:auctionId - :title - Inicia:
+        :startAt | Culmina: :endAt',
     ],
     'validation' => [
         'not found' => 'Licitacion no existe',
