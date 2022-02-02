@@ -11,10 +11,10 @@ class WinnerWasSelected
     public $bid;
     public $notificationService;
     
-    public function __construct($bid,$auction)
+    public function __construct($bid)
     {
         $this->bid = $bid;
-        $this->auction = $auction;
+        $this->auction = $bid->auction;
         $this->notificationService = app("Modules\Notification\Services\Inotification");
         $this->notification();
     }

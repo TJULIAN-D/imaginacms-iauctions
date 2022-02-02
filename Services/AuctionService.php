@@ -36,18 +36,10 @@ class AuctionService
             $params = ["filter" => ["status" => 1],"take" => 1];
             $bids = $this->bid->getItemsBy(json_decode(json_encode($params)));
 
-            // Select Winner
+            // Set Winner
             if(count($bids)>0){
                 $bidWin = $bids[0];
-
-                $bidWin->winner = true;
-                $bidWin->save();
-
-                $auction->winner_id = $bidWin->provider_id;
-                $auction->save();
-
-                event(new WinnerWasSelected($bidWin,$auction));
-
+                $this->saveWinnerInBidAndAuction($bidWin);
             }
             
 
@@ -55,6 +47,21 @@ class AuctionService
             \Log::info("Iauctions: Services|AuctionService|AuctionId: ".$auction->id."- No Conditions to set Winner");
         }
       
+
+    }
+
+    /*
+    *  Save and Save Winner for the Auction
+    */
+    public function saveWinnerInBidAndAuction($bid){
+
+        $bid->winner = true;
+        $bid->save();
+
+        $bid->auction->winner_id = $bid->provider_id;
+        $bid->auction->save();
+
+        event(new WinnerWasSelected($bid));
 
     }
 

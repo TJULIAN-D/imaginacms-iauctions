@@ -37,6 +37,7 @@ class ScheduleServiceProvider extends ServiceProvider
                 \Modules\Iauctions\Jobs\CheckStatusFinishAuction::dispatch();
             })->everyMinute();
             */
+            
            
            
 
