@@ -50,11 +50,14 @@ class CheckStatusFinishAuction implements ShouldQueue
                 $auction = Auction::find($item->id);
                 $auction->status = 2; // Finished
                 $auction->save();
-                event(new AuctionWasFinished($auction));
+                //event(new AuctionWasFinished($auction));
 
                 \Log::info("Iauctions: Jobs|CheckStatusFinishAuction|Updated Status AuctionID: $auction->id");
 
-                
+                // Set Winner for this Auction
+                $result = app('Modules\Iauctions\Services\AuctionService')->setWinner($auction);
+
+
             }
         }
 

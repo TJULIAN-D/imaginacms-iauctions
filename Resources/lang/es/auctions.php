@@ -14,6 +14,7 @@ return [
         'AuctionWasFinished' => 'Ha finalizado la Licitación #:auctionId',
         'AuctionRemainingDay' => 'Falta 1 dia para que inicie la Licitación #:auctionId',
         'AuctionRemainingHour' => 'Falta 1 hora para que finalice la Licitación #:auctionId',
+        'WinnerWasSelected' => 'Se ha seleccionado el ganador de la Licitación #:auctionId',
     ],
     'button' => [
         'create auction' => 'Create a auction',
@@ -30,6 +31,7 @@ return [
         'AuctionRemainingDay' => 'Licitación #:auctionId - :title - Inicia:
         :startAt | Culmina: :endAt',
         'AuctionRemainingHour' => 'Licitación #:auctionId - :title | Culmina: :endAt',
+        'WinnerWasSelected' => 'El ganador de la Licitación #:auctionId - :title | Es :bidWinner, Felicidades!',
     ],
     'validation' => [
         'not found' => 'Licitacion no existe',
