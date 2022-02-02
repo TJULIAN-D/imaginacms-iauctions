@@ -4,6 +4,7 @@ namespace Modules\Iauctions\Repositories\Eloquent;
 
 use Modules\Iauctions\Repositories\AuctionRepository;
 use Modules\Core\Icrud\Repositories\Eloquent\EloquentCrudRepository;
+use Modules\Iprofile\Entities\Department;
 
 class EloquentAuctionRepository extends EloquentCrudRepository implements AuctionRepository
 {
@@ -40,9 +41,18 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
     // If doesn't have Permission to index-all
     if(\Auth::user() && !\Auth::user()->hasAccess('iauctions.auctions.index-all')){
 
+      $userId = \Auth::user()->id;
+      $departments = Department::whereHas('users', function ($q) use ($userId){
+                $q->where('iprofile__user_department.user_id', $userId);
+            })->pluck('id');
+
+      $query->whereIn("department_id","=",$departments);
+
+      /*
       $query->whereHas("bids", function ($query) {
         $query->where("iauctions__bids.provider_id", \Auth::id());
       });
+      */
 
     }
 
