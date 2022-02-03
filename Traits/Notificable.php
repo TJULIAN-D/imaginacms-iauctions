@@ -52,6 +52,11 @@ trait Notificable
     			case 'Modules\Iauctions\Entities\Auction':
     				$model->checkStatusAuction($model);
     				break;
+
+    			//Bid
+    			case 'Modules\Iauctions\Entities\Bid':
+    				$model->checkWinnerValue($model);
+    				break;
     		
     		}
 		});
@@ -61,7 +66,7 @@ trait Notificable
 	}
 
 	/*
-	* Check status model
+	* Check status Auction model
 	*/
 	public function checkStatusAuction($model){
 
@@ -74,6 +79,20 @@ trait Notificable
 			event(new AuctionWasFinished($model));
     			
 
+	}
+
+	/*
+	* Check Winner when update Bid Model
+	*
+	*/
+	public function checkWinnerValue($bid){
+		
+		// Only Auctions type = OPEN
+		// Bid Winner 1
+		if($bid->auction->type==1 && $bid->winner){
+			app('Modules\Iauctions\Services\AuctionService')->saveWinnerInBidAndAuction($bid);
+		}
+		
 	}
 
 	

@@ -37,7 +37,7 @@ class CheckStatusFinishAuction implements ShouldQueue
 
         $nowDate = date('Y-m-d');
         $nowHour = date('H:i:00');
-
+        
         $results = Auction::select("id","status","end_at")
         ->where("status", 1) //Active
         ->whereDate("end_at", $nowDate) // Only Auctions to Finish Today
