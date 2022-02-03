@@ -37,6 +37,7 @@ return [
         'not found' => 'Licitacion no existe',
         'not available' => 'Licitacion no disponible',
         'other bid' => 'Ya tienes una puja para esta Licitacion',
+        'other winner' => 'Ya existe un ganador para esta Licitacion',
     ],
     'status' => [
         'inactive' => 'Inactivo',
