@@ -16,4 +16,11 @@ return [
     ],
     'validation' => [
     ],
+    'settings' => [
+        'usersToNotify' => 'Usuarios para enviar notificaciones',
+        'emails' => 'Emails para enviar notificaciones',
+    ],
+    'settingHints' => [
+        'emails' => "Ingresa el correo y presiona enter"
+    ],
 ];
