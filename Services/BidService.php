@@ -48,7 +48,10 @@ class BidService
         if(is_null($auction->category->bid_service)){
             $points = $data['amount'];
         }else{
-            $points = app($auction->category->bid_service)->getPoints($data,$auction);
+            $infor = app($auction->category->bid_service)->getPointsWithExtraData($data,$auction);
+            $points = $infor['points'];
+            if(isset($infor['extraData']) && !is_null($infor['extraData']))
+                $data = array_merge($data,$infor['extraData']);
         }
 
         $data['points'] = $points;
