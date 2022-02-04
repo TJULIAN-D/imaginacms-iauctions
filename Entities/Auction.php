@@ -14,9 +14,11 @@ use Modules\Iauctions\Entities\AuctionTypes;
 use Modules\Iauctions\Traits\Notificable;
 use Modules\Icomments\Traits\Commentable;
 
+use Modules\Ifillable\Traits\isFillable;
+
 class Auction extends CrudModel
 {
-    use Translatable, Commentable, Notificable;
+    use isFillable, Translatable, Commentable, Notificable;
 
     protected $table = 'iauctions__auctions';
     public $transformer = 'Modules\Iauctions\Transformers\AuctionTransformer';
@@ -73,7 +75,6 @@ class Auction extends CrudModel
         return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
     }
 
-   
     //============== MUTATORS / ACCESORS ==============//
 
     public function setOptionsAttribute($value)
