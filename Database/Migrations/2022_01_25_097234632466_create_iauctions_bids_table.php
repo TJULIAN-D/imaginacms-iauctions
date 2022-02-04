@@ -24,7 +24,7 @@ class CreateIauctionsBidsTable extends Migration
 
             $table->text('description');
             $table->double('amount', 30, 2)->default(0);
-            $table->float('points', 8, 2)->default(0);
+            $table->double('points', 30, 2)->default(0);
             $table->integer('status')->default(1)->unsigned();
 
             $table->boolean('winner')->default(false);
