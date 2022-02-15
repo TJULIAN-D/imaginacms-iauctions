@@ -14,6 +14,7 @@ class CreateAuctionRequest extends BaseFormRequest
             'user_id' => 'required',
             'department_id' => 'required',
             'category_id' => 'required',
+            'end_at' => 'after:start_at'
         ];
     }
 
@@ -39,7 +40,7 @@ class CreateAuctionRequest extends BaseFormRequest
             'description.required' => trans('iauctions::common.messages.field required'),
             'user_id.required' => trans('iauctions::common.messages.field required'),
             'department_id.required' => trans('iauctions::common.messages.field required'),
-            'category_id.required' => trans('iauctions::common.messages.field required'),
+            'category_id.required' => trans('iauctions::common.messages.field required')
         ];
     }
 
