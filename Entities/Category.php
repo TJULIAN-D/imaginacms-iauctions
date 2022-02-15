@@ -46,8 +46,12 @@ class Category extends CrudModel
     public function setSystemNameAttribute($value)
     {
 
-        if(empty($value) || is_null($value))
+        if(empty($value) || is_null($value)){
             $this->attributes['system_name'] = Str::slug($this->title, '-');
+        }else{
+            $this->attributes['system_name'] = $value;
+        }
+
     }
 
     public function getOptionsAttribute($value)
