@@ -4,6 +4,7 @@ namespace Modules\Iauctions\Entities;
 
 use Astrotomic\Translatable\Translatable;
 use Modules\Core\Icrud\Entities\CrudModel;
+use Illuminate\Support\Str;
 
 class Category extends CrudModel
 {
@@ -40,6 +41,13 @@ class Category extends CrudModel
     public function setOptionsAttribute($value)
     {
         $this->attributes['options'] = json_encode($value);
+    }
+
+    public function setSystemNameAttribute($value)
+    {
+
+        if(empty($value) || is_null($value))
+            $this->attributes['system_name'] = Str::slug($this->title, '-');
     }
 
     public function getOptionsAttribute($value)

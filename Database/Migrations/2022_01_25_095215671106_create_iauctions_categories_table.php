@@ -16,7 +16,7 @@ class CreateIauctionsCategoriesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             // Your fields...
-            $table->string('system_name', 50);
+            $table->string('system_name')->unique()->nullable();
             $table->text('bid_service')->nullable();
             $table->text('options')->nullable();
 
