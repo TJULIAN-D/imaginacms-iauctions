@@ -46,6 +46,9 @@ class BidWasCreated
                 "auctionInfor" => $this->bid->auction->title
             ]),
             "icon_class" => "fa fa-bell",
+            "withButton" => true,
+            "buttonText" => trans("iauctions::bids.single"),
+            "link" => url('/'),
             "setting" => [
                 "saveInDatabase" => true
             ]

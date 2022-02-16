@@ -71,6 +71,9 @@ class WinnerWasSelected
                 "bidWinner" => $this->bid->provider->email
             ]),
             "icon_class" => "fa fa-bell",
+            "withButton" => true,
+            "buttonText" => trans("iauctions::auctions.single"),
+            "link" => url('/'),
             "setting" => [
                 "saveInDatabase" => true
             ]

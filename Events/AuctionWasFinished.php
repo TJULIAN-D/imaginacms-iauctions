@@ -41,6 +41,9 @@ class AuctionWasFinished
                 "title" => $this->auction->title
             ]),
             "icon_class" => "fa fa-bell",
+            "withButton" => true,
+            "buttonText" => trans("iauctions::auctions.single"),
+            "link" => url('/'),
             "setting" => [
                 "saveInDatabase" => true
             ]

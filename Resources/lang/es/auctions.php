@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'single' => 'Licitación',
+    'plural' => 'Licitaciones',
     'list resource' => 'List auctions',
     'create resource' => 'Create auctions',
     'edit resource' => 'Edit auctions',
