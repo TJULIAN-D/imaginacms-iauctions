@@ -63,21 +63,6 @@ class AuctionService
 
         event(new WinnerWasSelected($bid));
 
-        /*
-        if($bid->winner){
-            \Log::info("Iauctions: Services|AuctionService|Other Winner Exist");
-            throw new \Exception(trans('iauctions::auctions.validation.other winner'), 500);
-        }else{
-            $bid->winner = true;
-            $bid->save();
-
-            $bid->auction->winner_id = $bid->provider_id;
-            $bid->auction->save();
-
-            event(new WinnerWasSelected($bid));
-        }
-        */
-
     }
 
 }
