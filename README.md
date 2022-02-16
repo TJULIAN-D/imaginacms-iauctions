@@ -31,3 +31,35 @@ php artisan module:seed Iauctions
 
 ### Category - Bid Service
 	The categories can have a service for the calculation of points of the bid, if it does not have it, the amount of the bid sent will be taken
+
+## Events with Notifications
+
+### Auction Remaining Day (Job - CheckDaysToStartAuction)
+	- Notification to: 
+		- Responsible Auction (user_id) 
+		- Providers (Users from same department)
+
+### Auction Remaining Hour (To Finish) (Job - CheckHoursToFinishAuction)
+	- Notification to: 
+		- Responsible Auction (user_id) 
+		- Providers (Users from same department)
+
+### Auction Was Actived (Job - CheckStatusInitAuction)
+	- Notification to: 
+		- Responsible Auction (user_id) 
+		- Providers (Users from same department)
+
+### Auction Was Finished (Job - CheckStatusFinishAuction)
+	- Notification to: 
+		- Responsible Auction (user_id) 
+		- Providers (Users from same department)
+
+### Bid Was Created (Trait - Notificable)
+	- Notification to: 
+		- Responsible Auction (user_id)
+
+### Winner Was Selected(Service - Auction Service)
+	- Notification to: 
+		- Responsible Auction (user_id)
+		- Winner Bid (provider_id)
+		- Emails from setting iauctions::formEmails

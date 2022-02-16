@@ -23,6 +23,8 @@ class BidWasCreated
     public function notification()
     {
 
+        \Log::info("Iauctions: Events|BidWasCreated|Notification");
+
         // Set emailTo Responsable
         $emailTo = $this->bid->auction->user->email;
 

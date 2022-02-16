@@ -23,6 +23,8 @@ class AuctionWasActived
     public function notification()
     {
 
+        \Log::info("Iauctions: Events|AuctionWasActived|Notification");
+        
         // Set emailTo
         $emailTo = auctionsGetEmailTo($this->auction);
         // Set BroadcastTo

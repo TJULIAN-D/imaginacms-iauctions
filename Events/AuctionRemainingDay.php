@@ -23,7 +23,8 @@ class AuctionRemainingDay
     public function notification()
     {
 
-        
+        \Log::info("Iauctions: Events|AuctionRemainingDay|Notification");
+
         // Set emailTo
         $emailTo = auctionsGetEmailTo($this->auction);
 

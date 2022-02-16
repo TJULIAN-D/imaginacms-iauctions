@@ -23,6 +23,8 @@ class AuctionRemainingHour
     public function notification()
     {
 
+        \Log::info("Iauctions: Events|AuctionRemainingHour|Notification");
+        
         // Set emailTo
         $emailTo = auctionsGetEmailTo($this->auction);
         // Set BroadcastTo

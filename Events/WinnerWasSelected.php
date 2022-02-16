@@ -23,6 +23,8 @@ class WinnerWasSelected
     public function notification()
     {
 
+        \Log::info("Iauctions: Events|WinnerWasSelected|Notification");
+        
         /*
         * Email to Winner Bid Provider
         * Email to Auction Responsable

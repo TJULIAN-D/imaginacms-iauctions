@@ -23,6 +23,8 @@ class AuctionWasFinished
     public function notification()
     {
 
+        \Log::info("Iauctions: Events|AuctionWasFinished|Notification");
+        
          // Set emailTo
         $emailTo = auctionsGetEmailTo($this->auction);
         // Set BroadcastTo
