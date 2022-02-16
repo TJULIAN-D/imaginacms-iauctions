@@ -30,7 +30,7 @@ trait Notificable
 
     			//Auction
     			case 'Modules\Iauctions\Entities\Auction':
-    				event(new AuctionWasCreated($model));
+    				// event(new AuctionWasCreated($model));
     				// Created and if is status active the one
     				$model->checkStatusAuction($model);
     				break;
