@@ -52,8 +52,9 @@ class BidApiController extends BaseCrudController
       \DB::commit(); //Commit to Data Base
     } catch (\Exception $e) {
       \DB::rollback();//Rollback to Data Base
-      $status = $this->getStatusError($e->getCode());
-      $response = ["errors" => $e->getMessage()];
+      //$status = $this->getStatusError($e->getCode());
+      //$response = ["errors" => $e->getMessage()];
+      $response = ["messages" => [["message" => $e->getMessage(), "type" => "error"]]];
     }
     //Return response
     return response()->json($response ?? ["data" => "Request successful"], $status ?? 200);
