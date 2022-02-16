@@ -36,6 +36,9 @@ class BidService
         if(!$auction->IsAvailable)
             throw new \Exception(trans('iauctions::auctions.validation.not available'), 500);
 
+        // Validate Provider Id
+        $data["provider_id"] = $data["provider_id"] ?? \Auth::id();
+
         //Validate if user doen't have Bids Actives
         $bids = $this->bid->findByAttributes([
             'provider_id'=> $data['provider_id'],
