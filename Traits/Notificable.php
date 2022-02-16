@@ -60,9 +60,6 @@ trait Notificable
     		
     		}
 		});
-
-
-		
 	}
 
 	/*

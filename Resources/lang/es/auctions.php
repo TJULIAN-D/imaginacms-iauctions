@@ -40,6 +40,9 @@ return [
         'not available' => 'Licitacion no disponible',
         'other bid' => 'Ya tienes una puja para esta Licitacion',
         'other winner' => 'Ya existe un ganador para esta Licitacion',
+        'type not open' => 'La licitacion no es de tipo abierta',
+        'not finished' => 'La licitacion no ha terminado',
+        'has a winner' => 'La licitacion ya tiene un ganador',
     ],
     'status' => [
         'inactive' => 'Inactivo',
