@@ -23,6 +23,20 @@ class StatusBid
         return $this->statuses;
     }
 
+    public function getAllStatus()
+    {
+
+        $statuses = $this->statuses;
+        $statusTransform = [];
+        foreach ($statuses as $key => $status) {
+           array_push($statusTransform,['value' => $key, 'name' => $status]);
+        }
+        //\Log::info("StatusSetting: ".json_encode($statusSetting));
+        //return $statusTransform;
+        return collect($statusTransform);
+
+    }
+
    
     public function get($statusId)
     {
