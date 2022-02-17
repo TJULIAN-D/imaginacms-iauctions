@@ -11,7 +11,6 @@ class CreateCategoryRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
             'system_name' => 'required',
             'bid_service' => new ValidatePath 
         ];
@@ -19,7 +18,9 @@ class CreateCategoryRequest extends BaseFormRequest
 
     public function translationRules()
     {
-        return [];
+        return [
+            'title' => 'required|min:2',
+        ];
     }
 
     public function authorize()
@@ -36,6 +37,7 @@ class CreateCategoryRequest extends BaseFormRequest
     {
         return [
             'title.required' => trans('iauctions::common.messages.field required'),
+            'title.min:2' => trans('iauctions::common.messages.min 2 characters'),
             'system_name.required' => trans('iauctions::common.messages.field required'),
         ];
     }
