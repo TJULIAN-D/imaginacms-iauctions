@@ -39,24 +39,23 @@ class AuctionService
             // Set Winner
             if(count($bids)>0){
                 $bidWin = $bids[0];
-                $this->saveWinnerInBidAndAuction($bidWin);
+                $bidWin->winner = true;
+                $bidWin->save();
+                $this->saveWinnerInAuction($bidWin);
             }
             
 
         }else{
-            \Log::info("Iauctions: Services|AuctionService|AuctionId: ".$auction->id."- No Conditions to set Winner");
+            \Log::info("Iauctions: Services|AuctionService|AuctionId:".$auction->id."- No Conditions to set Winner for the Auction Type");
         }
       
 
     }
 
     /*
-    *  Save and Save Winner for the Auction
+    *  Save Winner for the Auction
     */
-    public function saveWinnerInBidAndAuction($bid){
-
-        $bid->winner = true;
-        $bid->save();
+    public function saveWinnerInAuction($bid){
 
         $bid->auction->winner_id = $bid->provider_id;
         $bid->auction->save();

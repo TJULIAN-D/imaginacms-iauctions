@@ -87,7 +87,7 @@ trait Notificable
 		// Only Auctions type = OPEN
 		// Bid Winner 1
 		if($bid->auction->type==1 && $bid->winner){
-			app('Modules\Iauctions\Services\AuctionService')->saveWinnerInBidAndAuction($bid);
+			app('Modules\Iauctions\Services\AuctionService')->saveWinnerInAuction($bid);
 		}
 		
 	}
