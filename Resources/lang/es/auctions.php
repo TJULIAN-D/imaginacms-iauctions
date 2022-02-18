@@ -43,10 +43,10 @@ return [
         'type not open' => 'La licitacion no es de tipo abierta',
         'not finished' => 'La licitacion no ha terminado',
         'has a winner' => 'La licitacion ya tiene un ganador',
-        'has to be inactive to update' => 'La licitacion debe estar Inactiva para poder actualizarla',
+        'has to be inactive to update' => 'La licitacion debe estar Pendiente para poder actualizarla',
     ],
     'status' => [
-        'inactive' => 'Inactivo',
+        'pending' => 'Pendiente',
         'active' => 'Activo',
         'finished' => 'Culminado',
     ],

@@ -21,7 +21,7 @@ php artisan module:seed Iauctions
 	- OPEN[1] = The winner is chosen manually
 
 ### Auction - Status
-	- INACTIVE[0] (Default) = When the auction is created (it has not started yet)
+	- PENDING[0] (Default) = When the auction is created (it has not started yet)
 	- ACTIVE[1] = When the auction starts
 	- FINISHED[2] = When the auction ends
 

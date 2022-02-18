@@ -42,7 +42,7 @@ return [
         'other winner' => 'Ya existe un ganador para esta Licitacion',
     ],
     'status' => [
-        'inactive' => 'Inactivo',
+        'pending' => 'Pendiente',
         'active' => 'Activo',
         'finished' => 'Culminado',
     ],
