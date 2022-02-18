@@ -27,16 +27,16 @@ class CreateBidRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [];
-    }
-
-    public function translationMessages()
-    {
         return [
             'auction_id.required' => trans('iauctions::common.messages.field required'),
             'description.required' => trans('iauctions::common.messages.field required'),
             'amount.required' => trans('iauctions::common.messages.field required')
         ];
+    }
+
+    public function translationMessages()
+    {
+        return [];
     }
 
     public function getValidator(){

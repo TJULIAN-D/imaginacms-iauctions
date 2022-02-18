@@ -30,15 +30,16 @@ class CreateCategoryRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [];
+        return [
+            'system_name.required' => trans('iauctions::common.messages.field required')
+        ];
     }
 
     public function translationMessages()
     {
         return [
             'title.required' => trans('iauctions::common.messages.field required'),
-            'title.min:2' => trans('iauctions::common.messages.min 2 characters'),
-            'system_name.required' => trans('iauctions::common.messages.field required'),
+            'title.min:2' => trans('iauctions::common.messages.min 2 characters')
         ];
     }
 
