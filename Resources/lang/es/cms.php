@@ -22,5 +22,9 @@ return [
   "finishedState" => "Culminado",
   "typeOpen" => "Abierto",
   "typeInverse" => "Inverso",
-  "bidUp" => "Pujar"
+  "bidUp" => "Pujar",
+  "auction" => "Licitación | Licitaciones",
+  "bid" => "Puja | Pujas",
+  "setAsWinner" => "Marcar como Ganador",
+  "existBid" => "Ya tienes una puja para esta licitación"
 ];
