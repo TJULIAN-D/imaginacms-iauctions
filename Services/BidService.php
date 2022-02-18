@@ -42,6 +42,7 @@ class BidService
         //Validate if user doen't have Bids Actives
         $bids = $this->bid->findByAttributes([
             'provider_id'=> $data['provider_id'],
+            'auction_id' => $auction->id,
             'status' => 1 //RECEIVED = 1;
         ]);
         if(!is_null($bids))
