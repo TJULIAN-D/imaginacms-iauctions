@@ -50,7 +50,7 @@ class BidWasCreated
             "icon_class" => "fa fa-bell",
             "withButton" => true,
             "buttonText" => trans("iauctions::bids.single"),
-            "link" => url('/'),
+            "link" => url('/ipanel/#/auctions/bids/index'),
             "setting" => [
                 "saveInDatabase" => true
             ]

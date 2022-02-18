@@ -51,7 +51,7 @@ class AuctionRemainingHour
             "icon_class" => "fa fa-bell",
             "withButton" => true,
             "buttonText" => trans("iauctions::auctions.single"),
-            "link" => url('/'),
+            "link" => url('/ipanel/#/auctions/auctions/index'),
             "setting" => [
                 "saveInDatabase" => true
             ]
