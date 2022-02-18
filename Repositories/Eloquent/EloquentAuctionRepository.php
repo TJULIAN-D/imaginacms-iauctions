@@ -44,15 +44,10 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
       $userId = \Auth::user()->id;
       $departments = Department::whereHas('users', function ($q) use ($userId){
                 $q->where('iprofile__user_department.user_id', $userId);
-            })->pluck('id');
+            })->pluck('id')->toArray();
 
-      $query->whereIn("department_id","=",$departments);
-
-      /*
-      $query->whereHas("bids", function ($query) {
-        $query->where("iauctions__bids.provider_id", \Auth::id());
-      });
-      */
+     
+      $query->whereIn("department_id",$departments);
 
     }
 
