@@ -31,7 +31,11 @@ class CreateAuctionRequest extends BaseFormRequest
 
     public function messages()
     {
-        return [];
+        return [
+            'user_id.required' => trans('iauctions::common.messages.field required'),
+            'department_id.required' => trans('iauctions::common.messages.field required'),
+            'category_id.required' => trans('iauctions::common.messages.field required')
+        ];
     }
 
     public function translationMessages()
@@ -40,10 +44,7 @@ class CreateAuctionRequest extends BaseFormRequest
             'title.required' => trans('iauctions::common.messages.field required'),
             'title.min:2' => trans('iauctions::common.messages.min 2 characters'),
             'description.required' => trans('iauctions::common.messages.field required'),
-            'description.min:2' => trans('iauctions::common.messages.min 2 characters'),
-            'user_id.required' => trans('iauctions::common.messages.field required'),
-            'department_id.required' => trans('iauctions::common.messages.field required'),
-            'category_id.required' => trans('iauctions::common.messages.field required')
+            'description.min:2' => trans('iauctions::common.messages.min 2 characters')
         ];
     }
 

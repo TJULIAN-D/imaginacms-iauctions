@@ -72,7 +72,7 @@ class Auction extends CrudModel
     public function winner()
     {
         $driver = config('asgard.user.config.driver');
-        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+        return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User",'winner_id');
     }
 
     //============== MUTATORS / ACCESORS ==============//
