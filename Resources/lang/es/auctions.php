@@ -49,6 +49,7 @@ return [
         'pending' => 'Pendiente',
         'active' => 'Activo',
         'finished' => 'Culminado',
+        'canceled' => 'Cancelado',
     ],
     'types' => [
         'inverse' => 'Inversa',

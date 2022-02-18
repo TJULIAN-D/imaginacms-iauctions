@@ -8,6 +8,7 @@ class Status
     const PENDING = 0;
     const ACTIVE = 1;
     const FINISHED = 2;
+    const CANCELED = 3;
     
     private $statuses = [];
 
@@ -17,6 +18,7 @@ class Status
             self::PENDING => trans('iauctions::auctions.status.pending'),
             self::ACTIVE => trans('iauctions::auctions.status.active'),
             self::FINISHED => trans('iauctions::auctions.status.finished'),
+            self::CANCELED => trans('iauctions::auctions.status.canceled'),
         ];
     }
 
