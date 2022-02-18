@@ -13,6 +13,7 @@ return [
         'edit auction' => 'Edit a auction',
         'AuctionWasCreated' => 'Se ha creado la Licitación #:auctionId',
         'AuctionWasActived' => 'Ha iniciado Licitación #:auctionId',
+        'AuctionWasCanceled' => 'Se ha cancelado la Licitación #:auctionId',
         'AuctionWasFinished' => 'Ha finalizado la Licitación #:auctionId',
         'AuctionRemainingDay' => 'Falta 1 dia para que inicie la Licitación #:auctionId',
         'AuctionRemainingHour' => 'Falta 1 hora para que finalice la Licitación #:auctionId',
@@ -30,6 +31,7 @@ return [
         :startAt | Culmina: :endAt',
         'AuctionWasActived' => 'Licitación #:auctionId - :title | Culmina: :endAt',
         'AuctionWasFinished' => 'Licitación #:auctionId - :title - Finalizada',
+        'AuctionWasCanceled' => 'Licitación #:auctionId - :title - Cancelada',
         'AuctionRemainingDay' => 'Licitación #:auctionId - :title - Inicia:
         :startAt | Culmina: :endAt',
         'AuctionRemainingHour' => 'Licitación #:auctionId - :title | Culmina: :endAt',

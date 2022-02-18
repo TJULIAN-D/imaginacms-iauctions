@@ -7,6 +7,7 @@ namespace Modules\Iauctions\Traits;
 use Modules\Iauctions\Events\AuctionWasCreated;
 use Modules\Iauctions\Events\AuctionWasActived;
 use Modules\Iauctions\Events\AuctionWasFinished;
+use Modules\Iauctions\Events\AuctionWasCanceled;
 use Modules\Iauctions\Events\BidWasCreated;
 
 /**
@@ -74,6 +75,10 @@ trait Notificable
 		//FINISHED
 		if($model->status==2)
 			event(new AuctionWasFinished($model));
+
+		//CANCELED
+		if($model->status==3)
+			event(new AuctionWasCanceled($model));
     			
 
 	}

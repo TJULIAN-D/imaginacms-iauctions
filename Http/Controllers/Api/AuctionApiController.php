@@ -72,6 +72,8 @@ class AuctionApiController extends BaseCrudController
  
   public function update($criteria, Request $request)
   {
+    \Log::info("Iauctions: Update|Auction");
+
     \DB::beginTransaction(); //DB Transaction
     try {
       //Get model data
