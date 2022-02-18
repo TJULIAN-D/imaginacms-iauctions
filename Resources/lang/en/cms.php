@@ -22,5 +22,9 @@ return [
   "finishedState" => "Finished",
   "typeOpen" => "Open",
   "typeInverse" => "Inverse",
-  "bidUp" => "Bid Up"
+  "bidUp" => "Bid Up",
+  "auction" => "Auction | Auctions",
+  "bid" => "Bids | Bids",
+  "setAsWinner" => "Set as Winner",
+  "existBid" => "Already exist a bid from this auction"
 ];
