@@ -47,14 +47,9 @@ class Bid extends CrudModel
   public function provider()
   {
     $driver = config('asgard.user.config.driver');
-    return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User");
+    return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User",'provider_id');
   }
   
-  public function winner()
-  {
-    $driver = config('asgard.user.config.driver');
-    return $this->belongsTo("Modules\\User\\Entities\\{$driver}\\User", "winner");
-  }
   
   //============== MUTATORS / ACCESORS ==============//
   
