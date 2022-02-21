@@ -94,11 +94,22 @@ class AuctionApiController extends BaseCrudController
 
 
       // Only update if status is 0 (INACTIVE)
+      /*
       if($auction->status!=0)
         throw new \Exception(trans('iauctions::auctions.validation.has to be inactive to update'), 500);
+      */
 
-      //Update model
-      $model = $this->modelRepository->updateBy($criteria, $modelData, $params);
+      // Only update status Auction
+      if(isset($modelData['status']) && count($modelData)==1){
+        $modelDataFormat['status'] = $modelData['status'];
+        
+        //Update model
+        $model = $this->modelRepository->updateBy($criteria, $modelDataFormat, $params);
+      }else{
+        throw new \Exception(trans('iauctions::auctions.validation.only update status'), 500);
+      }
+
+     
 
       //Response
       $response = ["data" => CrudResource::transformData($model)];

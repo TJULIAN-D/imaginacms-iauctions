@@ -36,6 +36,7 @@ return [
         :startAt | Culmina: :endAt',
         'AuctionRemainingHour' => 'Licitación #:auctionId - :title | Culmina: :endAt',
         'WinnerWasSelected' => 'El ganador de la Licitación #:auctionId - :title | Es :bidWinner, Felicidades!',
+        'only update status' => 'Solo se puede actualizar el estado de la Licitación',
     ],
     'validation' => [
         'not found' => 'Licitacion no existe',

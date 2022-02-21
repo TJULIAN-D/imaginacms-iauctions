@@ -46,6 +46,7 @@ return [
         'not finished' => 'La licitacion no ha terminado',
         'has a winner' => 'La licitacion ya tiene un ganador',
         'has to be inactive to update' => 'La licitacion debe estar Pendiente para poder actualizarla',
+        'only update status' => 'Solo se puede actualizar el estado de la Licitación',
     ],
     'status' => [
         'pending' => 'Pendiente',
