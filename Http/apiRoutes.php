@@ -7,7 +7,8 @@ $router->group(['prefix' =>'/iauctions/v1'], function (Router $router) {
       'module' => 'iauctions',
       'prefix' => 'auctions',
       'controller' => 'AuctionApiController',
-      //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []]
+      //'middleware' => ['update' => ['can:iauctions.auctions.edit-status']]
+      'middleware' => ['update' => ['auth-can:iauctions.auctions.edit-status']]
     ]);
     $router->apiCrud([
       'module' => 'iauctions',

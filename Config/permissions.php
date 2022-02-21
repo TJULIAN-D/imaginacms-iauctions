@@ -7,6 +7,7 @@ return [
         'index-all' => 'iauctions::auctions.list resource',
         'create' => 'iauctions::auctions.create resource',
         'edit' => 'iauctions::auctions.edit resource',
+        'edit-status' => 'iauctions::auctions.edit resource',
         'destroy' => 'iauctions::auctions.destroy resource',
         'restore' => 'iauctions::auctions.restore resource',
     ],
