@@ -38,13 +38,14 @@ class IauctionsServiceProvider extends ServiceProvider
 
     public function boot()
     {
-       
+
         $this->publishConfig('iauctions', 'config');
         $this->publishConfig('iauctions', 'crud-fields');
 
         $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'settings'), "asgard.iauctions.settings");
         $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'settings-fields'), "asgard.iauctions.settings-fields");
         $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'permissions'), "asgard.iauctions.permissions");
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'cmsPages'), "asgard.iauctions.cmsPages");
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
