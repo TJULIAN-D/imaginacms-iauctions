@@ -46,6 +46,7 @@ class IauctionsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'settings-fields'), "asgard.iauctions.settings-fields");
         $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'permissions'), "asgard.iauctions.permissions");
         $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'cmsPages'), "asgard.iauctions.cmsPages");
+        $this->mergeConfigFrom($this->getModuleConfigFilePath('iauctions', 'cmsSidebar'), "asgard.iauctions.cmsSidebar");
 
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
