@@ -22,15 +22,14 @@ $router->group(['prefix' =>'/iauctions/v1'], function (Router $router) {
       'controller' => 'BidApiController',
       //'middleware' => ['create' => [], 'index' => [], 'show' => [], 'update' => [], 'delete' => [], 'restore' => []]
     ]);
-   
-    //Static Class
-    $router->group(['prefix' => 'status-bid'], function (Router $router) {
-      $router->get('/', [
-        'as' => 'api.iauctions.status-bid.get.items.by',
-        'uses' => 'StatusBidApiController@index',
-        'middleware' => ['auth:api']
-      ]);
-    });
+
+    //Static Class statusBid
+    $router->apiCrud([
+      'module' => 'iauctions',
+      'prefix' => 'status-bid',
+      'staticEntity' => "Modules\Iauctions\Entities\StatusBid",
+      'use' => ['index' => 'getAllStatus', 'show' => 'get']
+    ]);
 // append
 
 
