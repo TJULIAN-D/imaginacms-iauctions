@@ -6,9 +6,9 @@ return [
       "title" => "iauctions.cms.sidebar.adminGroup",
       "icon" => "fas fa-gavel",
       "children" => [
-        "iauction_cms_main_auctions",
-        "iauction_cms_main_bids",
-        "iauction_cms_main_categories",
+        "iauctions_cms_main_auctions",
+        "iauctions_cms_main_bids",
+        "iauctions_cms_main_categories",
       ]
     ]
   ],
@@ -17,8 +17,8 @@ return [
       "title" => "iauctions.cms.sidebar.adminGroup",
       "icon" => "fas fa-gavel",
       "children" => [
-        "iauction_cms_main_auctions",
-        "iauction_cms_main_bids"
+        "iauctions_cms_main_auctions",
+        "iauctions_cms_main_bids"
       ]
     ]
   ],
