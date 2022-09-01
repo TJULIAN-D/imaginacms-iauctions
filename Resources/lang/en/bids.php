@@ -17,6 +17,12 @@ return [
         'create bid' => 'Create a bid',
     ],
     'table' => [
+        'provider' => 'Provider',
+        'status' => 'Status',
+        'amount' => 'Amount',
+        'winner' => 'Winner',
+        'description' => 'Description',
+        'create at' => 'Create at'
     ],
     'form' => [
     ],

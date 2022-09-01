@@ -17,6 +17,12 @@ return [
         'create bid' => 'Create a bid',
     ],
     'table' => [
+        'provider' => 'Proveedor',
+        'status' => 'Estado',
+        'amount' => 'Monto',
+        'winner' => 'Ganador',
+        'description' => 'Nombre Comercial',
+        'create at' => 'Creado en'
     ],
     'form' => [
     ],
