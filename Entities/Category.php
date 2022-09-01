@@ -36,6 +36,11 @@ class Category extends CrudModel
         return $this->hasMany(Auction::class);
     }
 
+    public function bidForm()
+    {
+        return $this->belongsTo("Modules\Iforms\Entities\Form","bid_form_id");
+    }
+
     //============== MUTATORS / ACCESORS ==============//
 
     public function setOptionsAttribute($value)
