@@ -37,6 +37,9 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
      * if (isset($filter->status)) $query->where('status', $filter->status);
      *
      */
+
+    if (isset($filter->auctionId)) 
+      $query->where('auction_id', $filter->auctionId);
     
     // If doesn't have Permission to index-all
     if(\Auth::user() && !\Auth::user()->hasAccess('iauctions.auctions.index-all')){
@@ -50,6 +53,7 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
       $query->whereIn("department_id",$departments);
 
     }
+
 
     //Response
     return $query;
