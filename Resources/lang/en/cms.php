@@ -26,5 +26,6 @@ return [
   "auction" => "Auction | Auctions",
   "bid" => "Bids | Bids",
   "setAsWinner" => "Set as Winner",
-  "existBid" => "Already exist a bid from this auction"
+  "existBid" => "Already exist a bid from this auction",
+  "description" => "Description"
 ];

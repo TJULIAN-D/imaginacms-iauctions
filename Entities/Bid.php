@@ -10,11 +10,12 @@ use Modules\Iauctions\Entities\StatusBid;
 
 //Traits
 use Modules\Iauctions\Traits\Notificable;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Bid extends CrudModel
 {
   
-  use isFillable, Notificable;
+  use isFillable, Notificable, MediaRelation;
   
   protected $table = 'iauctions__bids';
   public $transformer = 'Modules\Iauctions\Transformers\BidTransformer';

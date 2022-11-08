@@ -26,5 +26,6 @@ return [
   "auction" => "Licitación | Licitaciones",
   "bid" => "Puja | Pujas",
   "setAsWinner" => "Marcar como Ganador",
-  "existBid" => "Ya tienes una puja para esta licitación"
+  "existBid" => "Ya tienes una puja para esta licitación",
+  "description" => "Descripción"
 ];
