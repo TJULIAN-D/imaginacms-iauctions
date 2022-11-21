@@ -16,6 +16,7 @@ class IauctionsDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->call(IauctionsModuleTableSeeder::class);
         // $this->call("OthersTableSeeder");
     }
 }
