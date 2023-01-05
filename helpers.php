@@ -1,7 +1,7 @@
 <?php
 
 
-if (!function_exists('auctionsGetEmailsTo')) {
+if (!function_exists('auctionsGetEmailTo')) {
 
 	function auctionsGetEmailTo($model){
 
