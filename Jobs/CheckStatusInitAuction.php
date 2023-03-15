@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Modules\Iauctions\Entities\Auction;
 use Modules\Iauctions\Events\AuctionWasActived;
 
-class checkStatusInitAuction implements ShouldQueue
+class CheckStatusInitAuction implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
