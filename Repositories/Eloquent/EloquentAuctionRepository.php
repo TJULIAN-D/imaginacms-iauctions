@@ -25,9 +25,10 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
    *
    * @param $query
    * @param $filter
+   * @param $params
    * @return mixed
    */
-  public function filterQuery($query, $filter)
+  public function filterQuery($query, $filter, $params)
   {
 
     /**
