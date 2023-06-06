@@ -19,6 +19,7 @@ class Bid extends CrudModel
   
   protected $table = 'iauctions__bids';
   public $transformer = 'Modules\Iauctions\Transformers\BidTransformer';
+  public $repository = 'Modules\Iauctions\Repositories\BidRepository';
   public $requestValidation = [
     'create' => 'Modules\Iauctions\Http\Requests\CreateBidRequest',
     'update' => 'Modules\Iauctions\Http\Requests\UpdateBidRequest',
