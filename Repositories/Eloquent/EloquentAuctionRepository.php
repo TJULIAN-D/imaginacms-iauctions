@@ -46,7 +46,8 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
         $query->whereHas('translations', function ($query) use ($filter) {
           $query->where('locale', $filter->locale)
             ->where('title', 'like', '%' . $filter->search . '%');
-        })->orWhere('updated_at', 'like', '%' . $filter->search . '%')
+        })->orWhere('id', 'like', '%' . $filter->search . '%')
+          ->orWhere('updated_at', 'like', '%' . $filter->search . '%')
           ->orWhere('created_at', 'like', '%' . $filter->search . '%');
       });
     }
