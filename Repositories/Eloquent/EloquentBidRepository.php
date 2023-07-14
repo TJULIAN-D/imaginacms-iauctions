@@ -45,7 +45,7 @@ class EloquentBidRepository extends EloquentCrudRepository implements BidReposit
   /*
   * Order Query Default 
   */
-  public function orderQuery($query, $order)
+  public function orderQuery($query, $order, $noSortOrder)
   {
     $orderField = $order->field ?? 'points';//Default field
     $orderWay = $order->way ?? 'asc';//Default way
