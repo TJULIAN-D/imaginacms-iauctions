@@ -39,6 +39,18 @@ class EloquentAuctionRepository extends EloquentCrudRepository implements Auctio
      *
      */
 
+    // add filter by search
+    if (isset($filter->search)) {
+      //find search in columns
+      $query->where(function ($query) use ($filter) {
+        $query->whereHas('translations', function ($query) use ($filter) {
+          $query->where('locale', $filter->locale)
+            ->where('title', 'like', '%' . $filter->search . '%');
+        })->orWhere('updated_at', 'like', '%' . $filter->search . '%')
+          ->orWhere('created_at', 'like', '%' . $filter->search . '%');
+      });
+    }
+
     if (isset($filter->auctionId)) 
       $query->where('auction_id', $filter->auctionId);
     
