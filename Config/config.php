@@ -27,6 +27,9 @@ return [
    |--------------------------------------------------------------------------
    */
   "mediaFillable" => [
+    'auction' => [
+      'mainimage' => 'single',
+    ],
     'bid' => [
       'mainimage' => 'single',
     ],

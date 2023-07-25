@@ -15,10 +15,11 @@ use Modules\Iauctions\Traits\Notificable;
 use Modules\Icomments\Traits\Commentable;
 
 use Modules\Ifillable\Traits\isFillable;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Auction extends CrudModel
 {
-  use isFillable, Translatable, Commentable, Notificable;
+  use isFillable, Translatable, Commentable, Notificable, MediaRelation;
 
   protected $table = 'iauctions__auctions';
   public $transformer = 'Modules\Iauctions\Transformers\AuctionTransformer';
