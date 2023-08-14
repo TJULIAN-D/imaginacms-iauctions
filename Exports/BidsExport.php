@@ -19,11 +19,12 @@ use Modules\Media\Entities\File;
 //Extra
 use Modules\Notification\Services\Inotification;
 
+use Modules\Isite\Traits\ReportQueueTrait;
 
-class BidsExport implements FromQuery, 
+class BidsExport implements FromQuery,
 WithEvents, ShouldQueue, WithMapping, WithHeadings
 {
-  use Exportable;
+  use Exportable, ReportQueueTrait;
 
   private $params;
   private $exportParams;
@@ -33,7 +34,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
   private $auction = null;
   private $fieldsBid = null;
 
-  
+
   public function __construct($params, $exportParams)
   {
     $this->params = $params;
@@ -49,7 +50,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
   */
   public function query()
   {
-    
+
     $this->params->returnAsQuery = true;
 
     $order['field'] = 'id';
@@ -96,7 +97,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
   */
   public function headings(): array
   {
-    
+
     // Base Fields
     $baseFields = [
       'ID',
@@ -115,16 +116,16 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
         array_push($baseFields, rtrim(str_replace('*','',$field['label'])));
       }
     }
-    
+
     return $baseFields;
-    
+
   }
 
   /*
   * Get fields and add to item
   */
   public function addFieldsBidToItem($item,$baseItem){
-    
+
     //Extra fields
     if(!is_null($this->fieldsBid)){
 
@@ -148,7 +149,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
         if(!is_null($fieldItem)){
 
           $value = $fieldItem->translations->first()->value ?? '--';
-          
+
           // Value from Medias Single
           if($field['name']=="medias_single"){
             if(isset($value['mainimage']) && !is_null($value['mainimage'])){
@@ -162,7 +163,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
           //Convert string to show in excel - not like empty
           if($value==0)
             $value = (string)$value;
-          
+
         }
 
         //Add extra field value
@@ -172,7 +173,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
     }
 
     return $baseItem;
-      
+
   }
 
   /**
@@ -180,7 +181,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
   */
   public function map($item): array
   {
-    
+
     // Base Item Fields
     $baseItem = [
       $item->id ?? null,
@@ -195,7 +196,7 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
 
     //Extra Fields - Bid
     $baseItem = $this->addFieldsBidToItem($item,$baseItem);
-    
+
     //if($item->id==6)
       //dd($baseItem);
 
@@ -210,9 +211,13 @@ WithEvents, ShouldQueue, WithMapping, WithHeadings
   public function registerEvents(): array
   {
     return [
+      // Event gets raised at the start of the process.
+      BeforeExport::class => function (BeforeExport $event) {
+        $this->lockReport($this->exportParams->exportName);
+      },
       // Event gets raised at the end of the sheet process
-      
       AfterSheet::class => function (AfterSheet $event) {
+        $this->unlockReport($this->exportParams->exportName);
         //Send pusher notification
         $this->inotification->to(['broadcast' => $this->params->user->id])->push([
           "title" => "New report",
