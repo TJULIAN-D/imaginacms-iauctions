@@ -2,23 +2,29 @@
 
 namespace Modules\Iauctions\Exports;
 
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-//Events
 use Maatwebsite\Excel\Concerns\WithMapping;
+
+//Events
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
+
 //Entities
 use Modules\Iauctions\Entities\Auction;
 use Modules\Media\Entities\File;
 
 //Extra
+use Modules\Notification\Services\Inotification;
 
-class BidsExport implements FromQuery, WithEvents, ShouldQueue, WithMapping, WithHeadings
+use Modules\Isite\Traits\ReportQueueTrait;
+
+class BidsExport implements FromQuery,
+WithEvents, ShouldQueue, WithMapping, WithHeadings
 {
-    use Exportable;
+  use Exportable, ReportQueueTrait;
 
     private $params;
 
