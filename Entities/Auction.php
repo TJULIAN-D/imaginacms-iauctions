@@ -10,11 +10,11 @@ use Modules\Iauctions\Traits\Notificable;
 //Traits
 use Modules\Icomments\Traits\Commentable;
 use Modules\Ifillable\Traits\isFillable;
-use Modules\Iprofile\Entities\Department;
+use Modules\Media\Support\Traits\MediaRelation;
 
 class Auction extends CrudModel
 {
-    use isFillable, Translatable, Commentable, Notificable;
+  use isFillable, Translatable, Commentable, Notificable, MediaRelation;
 
     protected $table = 'iauctions__auctions';
 
